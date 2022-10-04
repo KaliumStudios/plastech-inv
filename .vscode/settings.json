@@ -1,4 +1,9 @@
 {
-    "files.eol": "\n",
-    "editor.tabSize": 2
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file"
 }
