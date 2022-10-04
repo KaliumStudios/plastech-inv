@@ -14,10 +14,10 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["Produccion", "Inventario", "Fallas"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-const ResponsiveAppBar = () => {
+export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -37,7 +37,7 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{backgroundColor: "#007ea7"}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AgricultureIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1, ml: -10 }} />
@@ -90,34 +90,23 @@ const ResponsiveAppBar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography 
+                    textAlign="center" 
+                    component="a"
+                    href="/"
+                  >
+                    {page}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }}} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
+          
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }}}>
             {pages.map((page) => (
               <Button
                 key={page}
+                href={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
@@ -130,7 +119,7 @@ const ResponsiveAppBar = () => {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, mr: -10 }}>
                 <Avatar alt="Yep Cock" src="" sx={{ mr: 2.5 }}/>
-                <Typography > El Eliud de Leon </Typography>
+                <Typography sx={{ my: 2, color: "white", display: "block" }} > El Eliud de Leon </Typography>
               </IconButton>
             </Tooltip>
             <Menu
@@ -160,5 +149,4 @@ const ResponsiveAppBar = () => {
       </Container>
     </AppBar>
   );
-};
-export default ResponsiveAppBar;
+}
