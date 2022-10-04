@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
 
-const pages = ["Produccion", "Inventario", "Fallas"];
+const pages = ["Production", "Inventario", "Fallas"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export default function Navbar() {

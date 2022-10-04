@@ -1,35 +1,25 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Production from "./components/Production";
 import Inventario from "./components/Inventario";
 import Fallas from "./components/Fallas";
+import { Route, Routes } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
 
 
 
 function App() {
-  let component;
-  switch (window.location.pathname) {
-  case "/":
-    // TODO: change the component to the dashboard component 
-    component = <Production />;
-    break;
-  case "/Production":
-    component = <Production />;
-    break;
-  case "/Inventario":
-    component = <Inventario />;
-    break;
-  case "/Fallas":
-    component = <Fallas />;
-    break;
-  }
   return (
     <>
       <Navbar/>
       <div className= " container">
-        {component}
+        <Routes>
+          <Route path="/" element={<Dashboard/>}/>
+          <Route path="/Production" element={<Production/>}/>
+          <Route path="/Inventario" element={<Inventario/>}/>
+          <Route path="/Fallas" element={<Fallas/>}/>
+        </Routes>
       </div>
     </>
   );
