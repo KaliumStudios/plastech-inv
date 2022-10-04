@@ -11,15 +11,18 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
 
 const pages = ["Production", "Inventario", "Fallas"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export default function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -37,10 +40,12 @@ export default function Navbar() {
   };
 
   return (
-    <AppBar position="static" sx={{backgroundColor: "#007ea7"}}>
+    <AppBar position="static" sx={{ backgroundColor: "#007ea7" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AgricultureIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1, ml: -10 }} />
+          <AgricultureIcon
+            sx={{ display: { xs: "none", md: "flex" }, mr: 1, ml: -10 }}
+          />
           <Typography
             variant="h6"
             noWrap
@@ -90,19 +95,15 @@ export default function Navbar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography 
-                    textAlign="center" 
-                    component="a"
-                    href="/"
-                  >
+                  <Typography textAlign="center" component="a" href="/">
                     {page}
                   </Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }}}>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -118,8 +119,11 @@ export default function Navbar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, mr: -10 }}>
-                <Avatar alt="Yep Cock" src="" sx={{ mr: 2.5 }}/>
-                <Typography sx={{ my: 2, color: "white", display: "block" }} > El Eliud de Leon </Typography>
+                <Avatar alt="Yep Cock" src="" sx={{ mr: 2.5 }} />
+                <Typography sx={{ my: 2, color: "white", display: "block" }}>
+                  {" "}
+                  El Eliud de Leon{" "}
+                </Typography>
               </IconButton>
             </Tooltip>
             <Menu

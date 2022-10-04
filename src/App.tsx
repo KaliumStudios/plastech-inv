@@ -7,18 +7,16 @@ import Fallas from "./components/Fallas";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 
-
-
 function App() {
   return (
     <>
-      <Navbar/>
-      <div className= " container">
+      <Navbar />
+      <div className=" container">
         <Routes>
-          <Route path="/" element={<Dashboard/>}/>
-          <Route path="/Production" element={<Production/>}/>
-          <Route path="/Inventario" element={<Inventario/>}/>
-          <Route path="/Fallas" element={<Fallas/>}/>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/Production" element={<Production />} />
+          <Route path="/Inventario" element={<Inventario />} />
+          <Route path="/Fallas" element={<Fallas />} />
         </Routes>
       </div>
     </>

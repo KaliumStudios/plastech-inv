@@ -3,20 +3,19 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import { Container } from "@mui/system";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#0d1b2a" ,
+  backgroundColor: "#0d1b2a",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
   color: "white",
-  display: "block"
+  display: "block",
 }));
 
 export default function Production() {
   return (
-    <Box >
+    <Box>
       <Grid container spacing={2} columnSpacing={4}>
         <Grid item xs={8}>
           <Item>xs=8</Item>
