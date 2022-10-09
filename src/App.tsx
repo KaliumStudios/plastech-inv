@@ -1,17 +1,17 @@
 import React from "react";
-import "./App.css";
 import Navbar from "./components/Navbar";
 import Production from "./components/Production";
 import Inventario from "./components/Inventario";
 import Fallas from "./components/Fallas";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
+import { container } from "./styles/Pages.styles";
 
 function App() {
   return (
     <>
       <Navbar />
-      <div className=" container">
+      <div style={container}>
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/Production" element={<Production />} />

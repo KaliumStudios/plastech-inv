@@ -119,10 +119,9 @@ export default function Navbar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, mr: -10 }}>
-                <Avatar alt="Yep Cock" src="" sx={{ mr: 2.5 }} />
+                <Avatar alt="User Image" src="" sx={{ mr: 2.5 }} />
                 <Typography sx={{ my: 2, color: "white", display: "block" }}>
-                  {" "}
-                  El Eliud de Leon{" "}
+                  {" El ELiud de Leon "}
                 </Typography>
               </IconButton>
             </Tooltip>
