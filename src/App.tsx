@@ -1,25 +1,25 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import Navbar from "./components/Navbar";
+import Production from "./components/Production";
+import Inventario from "./components/Inventario";
+import Fallas from "./components/Fallas";
+import { Route, Routes } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import { container } from "./styles/Common.styles";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+      <div style={container}>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/Production" element={<Production />} />
+          <Route path="/Inventario" element={<Inventario />} />
+          <Route path="/Fallas" element={<Fallas />} />
+        </Routes>
+      </div>
+    </>
   );
 }
 
