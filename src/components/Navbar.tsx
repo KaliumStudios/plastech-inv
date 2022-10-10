@@ -122,7 +122,7 @@ export default function Navbar() {
               </Button>
             ))}
           </Box>
-
+          {/* { TODO cabmiar este pedazo cuando tengamos la conexion a la base de datos } */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={userIconButton}>
