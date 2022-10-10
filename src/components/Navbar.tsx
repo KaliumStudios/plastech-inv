@@ -14,6 +14,17 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
 import { useNavigate } from "react-router-dom";
+import {
+  logoFlexBox,
+  logoImage,
+  logoText,
+  navbarFlexBox,
+  navbarText,
+  userIconButton,
+  userLogin,
+  userPictureMenu,
+  userImage,
+} from "../styles/Common.styles";
 
 const pages = ["Production", "Inventario", "Fallas"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -54,29 +65,18 @@ export default function Navbar() {
     <AppBar position="static" sx={{ backgroundColor: "#007ea7" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AgricultureIcon
-            sx={{ display: { xs: "none", md: "flex" }, mr: 1, ml: -10 }}
-          />
+          <AgricultureIcon sx={logoImage} />
           <Typography
             variant="h6"
             noWrap
             component="a"
             onClick={handleNavClick("")}
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-              cursor: "pointer",
-            }}
+            sx={logoText}
           >
             LOGO
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={logoFlexBox}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -115,13 +115,9 @@ export default function Navbar() {
             </Menu>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={navbarFlexBox}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleNavClick(page)}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
+              <Button key={page} onClick={handleNavClick(page)} sx={navbarText}>
                 {page}
               </Button>
             ))}
@@ -129,15 +125,13 @@ export default function Navbar() {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, mr: -10 }}>
-                <Avatar alt="User Image" src="" sx={{ mr: 2.5 }} />
-                <Typography sx={{ my: 2, color: "white", display: "block" }}>
-                  {" El ELiud de Leon "}
-                </Typography>
+              <IconButton onClick={handleOpenUserMenu} sx={userIconButton}>
+                <Avatar alt="User Image" src="" sx={userImage} />
+                <Typography sx={userLogin}>{" El ELiud de Leon "}</Typography>
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: "45px" }}
+              sx={userPictureMenu}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
