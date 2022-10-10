@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useCallback } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,6 +13,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
+import { useNavigate } from "react-router-dom";
 
 const pages = ["Production", "Inventario", "Fallas"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -39,6 +41,15 @@ export default function Navbar() {
     setAnchorElUser(null);
   };
 
+  const navigate = useNavigate();
+
+  const handleNavClick = useCallback(
+    (page: string) => () => {
+      navigate(`/${page}`);
+    },
+    []
+  );
+
   return (
     <AppBar position="static" sx={{ backgroundColor: "#007ea7" }}>
       <Container maxWidth="xl">
@@ -50,7 +61,7 @@ export default function Navbar() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            onClick={handleNavClick("")}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -59,6 +70,7 @@ export default function Navbar() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             LOGO
@@ -107,8 +119,7 @@ export default function Navbar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                href={page}
-                onClick={handleCloseNavMenu}
+                onClick={handleNavClick(page)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 {page}

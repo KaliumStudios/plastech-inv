@@ -5,7 +5,7 @@ import Inventario from "./components/Inventario";
 import Fallas from "./components/Fallas";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
-import { container } from "./styles/Pages.styles";
+import { container } from "./styles/Common.styles";
 
 function App() {
   return (
