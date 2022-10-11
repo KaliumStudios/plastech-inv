@@ -15,23 +15,26 @@ import {
 // type Props = {
 //   fontColor?: string;
 //   // variable sin cammel case por warning en la consola, no encuentro el porque no sale el warninf en fontColor;
-//   widthpercent?: string;
 // };
 
 // const options = {
 //   shouldForwardProp: (prop: string) => prop !== "fontColor",
-//   shouldForwardProp2: (prop: string) => prop !== "widthpercent",
 // };
 
 // const StyledTextField = styled(
 //   TextField,
 //   options
-// )<Props>(({ fontColor, widthpercent }) => ({
-//   width: widthpercent,
+// )<Props>(({ fontColor }) => ({
 //   input: {
 //     color: fontColor,
 //   },
 // }));
+
+// const styles = {
+//   resize: {
+//     fontSize: 30,
+//   },
+// };
 
 export default function Production() {
   return (
@@ -41,7 +44,10 @@ export default function Production() {
           <Card style={cardBackgroundColor}>
             <Box style={boxMargins}>
               <Typography style={typographyStyles}>Pintor</Typography>
-              <TextField fullWidth></TextField>
+              <TextField
+                fullWidth
+                // inputProps={{ style: { fontSize: 40 } }}
+              ></TextField>
               <Typography style={typographyStyles}>Resinador</Typography>
               <TextField fullWidth></TextField>
               <Typography style={typographyStyles}>Fibrador</Typography>
