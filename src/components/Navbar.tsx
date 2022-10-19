@@ -63,7 +63,10 @@ export default function Navbar() {
   );
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#007ea7" }}>
+    <AppBar
+      position="sticky"
+      sx={{ backgroundColor: "#007ea7", flex: "0 1 auto" }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={logoImage} />
