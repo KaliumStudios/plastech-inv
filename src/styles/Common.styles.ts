@@ -5,17 +5,22 @@ export const appLink = {
 };
 
 export const container: React.CSSProperties = {
-  margin: "1rem",
+  padding: "1rem",
+  boxSizing: "border-box",
   textAlign: "center",
+  flex: "1 1 auto",
 };
 
-export const backgroundColor = {
+export const backgroundColor: React.CSSProperties = {
   backgroundColor: "#0d1b2a",
+  height: "100%",
   width: "100%",
-  height: "100vh",
+  overflow: "auto",
+  display: "flex",
+  flexFlow: "column",
 };
 
-//Logo css
+// Logo css
 export const logoFlexBox = {
   flexGrow: 1,
   display: { xs: "flex", md: "none" },
@@ -42,7 +47,7 @@ export const movileImageLogo = {
   mr: 1,
 };
 
-//Navbar data
+// Navbar data
 export const navbarFlexBox = {
   flexGrow: 1,
   display: { xs: "none", md: "flex" },
@@ -65,7 +70,7 @@ export const navbarMovil = {
   textDecoration: "none",
 };
 
-//User data
+// User data
 export const userLogin = {
   my: 2,
   color: "white",
@@ -85,7 +90,7 @@ export const userImage = {
   mr: 2.5,
 };
 
-//Production css
+// Production css
 
 export const cardBackgroundColor = {
   backgroundColor: "#FDFFF7",
