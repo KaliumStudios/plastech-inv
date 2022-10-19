@@ -38,10 +38,12 @@ export const logoText = {
 export const logoImage = {
   display: { xs: "none", md: "flex" }, 
   mr: 1, 
-  ml: -10,
 };
 
-
+export const movileImageLogo = {
+  display: { xs: "flex", md: "none" }, 
+  mr: 1,
+};
 
 //Navbar data
 export const navbarFlexBox = {
@@ -53,6 +55,17 @@ export const navbarText = {
   my: 2, 
   color: "white", 
   display: "block",
+};
+
+export const navbarMovil = {
+  mr: 2,
+  display: { xs: "flex", md: "none" },
+  flexGrow: 1,
+  fontFamily: "monospace",
+  fontWeight: 700,
+  letterSpacing: ".3rem",
+  color: "inherit",
+  textDecoration: "none",
 };
 
 //User data
@@ -107,5 +120,5 @@ export const checkboxesStyles = {
 export const cardHeightControl = {
   backgroundColor: "#FDFFF7", 
   borderRadius: "15px",
-  height: "100%"
+  height: "100%",
 };

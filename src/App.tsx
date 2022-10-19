@@ -5,11 +5,11 @@ import Inventario from "./components/Inventario";
 import Fallas from "./components/Fallas";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
-import { container } from "./styles/Common.styles";
+import { backgroundColor, container } from "./styles/Common.styles";
 
 function App() {
   return (
-    <>
+    <div style={backgroundColor}>
       <Navbar />
       <div style={container}>
         <Routes>
@@ -19,7 +19,7 @@ function App() {
           <Route path="/Fallas" element={<Fallas />} />
         </Routes>
       </div>
-    </>
+    </div>
   );
 }
 
