@@ -12,18 +12,19 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AgricultureIcon from "@mui/icons-material/Agriculture";
+import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import {
   logoFlexBox,
-  logoImage,
   logoText,
-  navbarFlexBox,
   navbarText,
-  userIconButton,
   userLogin,
   userPictureMenu,
   userImage,
+  navbarMovil,
+  navbarFlexBox,
+  logoImage,
+  movileImageLogo,
 } from "../styles/Common.styles";
 
 const pages = ["Production", "Inventario", "Fallas"];
@@ -65,7 +66,7 @@ export default function Navbar() {
     <AppBar position="static" sx={{ backgroundColor: "#007ea7" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AgricultureIcon sx={logoImage} />
+          <AdbIcon sx={logoImage} />
           <Typography
             variant="h6"
             noWrap
@@ -106,15 +107,22 @@ export default function Navbar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center" component="a" href="/">
-                    {page}
-                  </Typography>
+                <MenuItem key={page} onClick={handleNavClick(page)}>
+                  <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-
+          <AdbIcon sx={movileImageLogo} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={navbarMovil}
+          >
+            LOGO
+          </Typography>
           <Box sx={navbarFlexBox}>
             {pages.map((page) => (
               <Button key={page} onClick={handleNavClick(page)} sx={navbarText}>
@@ -125,7 +133,7 @@ export default function Navbar() {
           {/* { TODO cabmiar este pedazo cuando tengamos la conexion a la base de datos } */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={userIconButton}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User Image" src="" sx={userImage} />
                 <Typography sx={userLogin}>{" El ELiud de Leon "}</Typography>
               </IconButton>

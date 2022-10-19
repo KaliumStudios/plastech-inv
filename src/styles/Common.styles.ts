@@ -9,6 +9,11 @@ export const container = {
   "text-align": "center",
 };
 
+export const backgroundColor = {
+  backgroundColor: "#0d1b2a",
+  width: "100%",
+  height: "100vh",
+};
 
 
 
@@ -33,10 +38,12 @@ export const logoText = {
 export const logoImage = {
   display: { xs: "none", md: "flex" }, 
   mr: 1, 
-  ml: -10,
 };
 
-
+export const movileImageLogo = {
+  display: { xs: "flex", md: "none" }, 
+  mr: 1,
+};
 
 //Navbar data
 export const navbarFlexBox = {
@@ -48,6 +55,17 @@ export const navbarText = {
   my: 2, 
   color: "white", 
   display: "block",
+};
+
+export const navbarMovil = {
+  mr: 2,
+  display: { xs: "flex", md: "none" },
+  flexGrow: 1,
+  fontFamily: "monospace",
+  fontWeight: 700,
+  letterSpacing: ".3rem",
+  color: "inherit",
+  textDecoration: "none",
 };
 
 //User data
@@ -68,4 +86,33 @@ export const userIconButton = {
 
 export const userImage = {
   mr: 2.5,
+};
+
+//Production css
+
+export const cardBackgroundColor = {
+  backgroundColor: "#FDFFF7", 
+  borderRadius: "15px",
+};
+
+export const centeredGrids = {
+  justifyContent: "center",
+};
+
+export const boxMargins = {
+  margin: "20px 30px 20px 30px",
+};
+
+export const typographyStyles = {
+  display: "flex",
+  justifyContent: "start",
+  marginBottom: "10px",
+  marginTop: "10px",
+};
+
+export const checkboxesStyles = {
+  display: "flex",
+  justifyContent: "center",
+  alignContent: "center",
+  alignItems: "center",
 };
