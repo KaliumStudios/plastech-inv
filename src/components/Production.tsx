@@ -10,32 +10,6 @@ import {
   centeredGrids,
 } from "../styles/Common.styles";
 
-// Se utilizaria en caso que el color de borde en los inputs se quiera cambiar de color
-
-// type Props = {
-//   fontColor?: string;
-//   // variable sin cammel case por warning en la consola, no encuentro el porque no sale el warninf en fontColor;
-// };
-
-// const options = {
-//   shouldForwardProp: (prop: string) => prop !== "fontColor",
-// };
-
-// const StyledTextField = styled(
-//   TextField,
-//   options
-// )<Props>(({ fontColor }) => ({
-//   input: {
-//     color: fontColor,
-//   },
-// }));
-
-// const styles = {
-//   resize: {
-//     fontSize: 30,
-//   },
-// };
-
 export default function Production() {
   return (
     <Stack>
@@ -44,10 +18,7 @@ export default function Production() {
           <Card style={cardBackgroundColor}>
             <Box style={boxMargins}>
               <Typography style={typographyStyles}>Pintor</Typography>
-              <TextField
-                fullWidth
-                // inputProps={{ style: { fontSize: 40 } }}
-              ></TextField>
+              <TextField fullWidth></TextField>
               <Typography style={typographyStyles}>Resinador</Typography>
               <TextField fullWidth></TextField>
               <Typography style={typographyStyles}>Fibrador</Typography>
