@@ -9,6 +9,11 @@ export const container = {
   "text-align": "center",
 };
 
+export const backgroundColor = {
+  backgroundColor: "#0d1b2a",
+  width: "100%",
+  height: "100vh",
+};
 
 
 
@@ -68,4 +73,39 @@ export const userIconButton = {
 
 export const userImage = {
   mr: 2.5,
+};
+
+//Production css
+
+export const cardBackgroundColor = {
+  backgroundColor: "#FDFFF7", 
+  borderRadius: "15px",
+};
+
+export const centeredGrids = {
+  justifyContent: "center",
+};
+
+export const boxMargins = {
+  margin: "20px 30px 20px 30px",
+};
+
+export const typographyStyles = {
+  display: "flex",
+  justifyContent: "start",
+  marginBottom: "10px",
+  marginTop: "10px",
+};
+
+export const checkboxesStyles = {
+  display: "flex",
+  justifyContent: "center",
+  alignContent: "center",
+  alignItems: "center",
+};
+
+export const cardHeightControl = {
+  backgroundColor: "#FDFFF7", 
+  borderRadius: "15px",
+  height: "100%"
 };
