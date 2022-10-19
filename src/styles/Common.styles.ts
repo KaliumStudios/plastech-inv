@@ -1,12 +1,12 @@
-
+import React from "react";
 
 export const appLink = {
-  "color": "#61dafb",
+  color: "#61dafb",
 };
 
-export const container = {
+export const container: React.CSSProperties = {
   margin: "1rem",
-  "text-align": "center",
+  textAlign: "center",
 };
 
 export const backgroundColor = {
@@ -15,12 +15,9 @@ export const backgroundColor = {
   height: "100vh",
 };
 
-
-
-
-//Logo css 
+//Logo css
 export const logoFlexBox = {
-  flexGrow: 1, 
+  flexGrow: 1,
   display: { xs: "flex", md: "none" },
 };
 
@@ -36,24 +33,24 @@ export const logoText = {
 };
 
 export const logoImage = {
-  display: { xs: "none", md: "flex" }, 
-  mr: 1, 
+  display: { xs: "none", md: "flex" },
+  mr: 1,
 };
 
 export const movileImageLogo = {
-  display: { xs: "flex", md: "none" }, 
+  display: { xs: "flex", md: "none" },
   mr: 1,
 };
 
 //Navbar data
 export const navbarFlexBox = {
-  flexGrow: 1, 
+  flexGrow: 1,
   display: { xs: "none", md: "flex" },
 };
 
 export const navbarText = {
-  my: 2, 
-  color: "white", 
+  my: 2,
+  color: "white",
   display: "block",
 };
 
@@ -70,8 +67,8 @@ export const navbarMovil = {
 
 //User data
 export const userLogin = {
-  my: 2, 
-  color: "white", 
+  my: 2,
+  color: "white",
   display: "block",
 };
 
@@ -80,8 +77,8 @@ export const userPictureMenu = {
 };
 
 export const userIconButton = {
-  p: 0, 
-  mr: -10, 
+  p: 0,
+  mr: -10,
 };
 
 export const userImage = {
@@ -91,7 +88,7 @@ export const userImage = {
 //Production css
 
 export const cardBackgroundColor = {
-  backgroundColor: "#FDFFF7", 
+  backgroundColor: "#FDFFF7",
   borderRadius: "15px",
 };
 
@@ -118,7 +115,7 @@ export const checkboxesStyles = {
 };
 
 export const cardHeightControl = {
-  backgroundColor: "#FDFFF7", 
+  backgroundColor: "#FDFFF7",
   borderRadius: "15px",
   height: "100%",
 };
