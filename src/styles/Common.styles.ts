@@ -116,3 +116,9 @@ export const checkboxesStyles = {
   alignContent: "center",
   alignItems: "center",
 };
+
+export const cardHeightControl = {
+  backgroundColor: "#FDFFF7",
+  borderRadius: "15px",
+  height: "100%",
+};
