@@ -1,26 +1,26 @@
-
-
 export const appLink = {
-  "color": "#61dafb",
+  color: "#61dafb",
 };
 
-export const container = {
-  margin: "1rem",
-  "text-align": "center",
+export const container: React.CSSProperties = {
+  padding: "1rem",
+  boxSizing: "border-box",
+  textAlign: "center",
+  flex: "1 1 auto",
 };
 
-export const backgroundColor = {
+export const backgroundColor: React.CSSProperties = {
   backgroundColor: "#0d1b2a",
+  height: "100%",
   width: "100%",
-  height: "100vh",
+  overflow: "auto",
+  display: "flex",
+  flexFlow: "column",
 };
 
-
-
-
-//Logo css 
+// Logo css
 export const logoFlexBox = {
-  flexGrow: 1, 
+  flexGrow: 1,
   display: { xs: "flex", md: "none" },
 };
 
@@ -36,24 +36,24 @@ export const logoText = {
 };
 
 export const logoImage = {
-  display: { xs: "none", md: "flex" }, 
-  mr: 1, 
-};
-
-export const movileImageLogo = {
-  display: { xs: "flex", md: "none" }, 
+  display: { xs: "none", md: "flex" },
   mr: 1,
 };
 
-//Navbar data
+export const movileImageLogo = {
+  display: { xs: "flex", md: "none" },
+  mr: 1,
+};
+
+// Navbar data
 export const navbarFlexBox = {
-  flexGrow: 1, 
+  flexGrow: 1,
   display: { xs: "none", md: "flex" },
 };
 
 export const navbarText = {
-  my: 2, 
-  color: "white", 
+  my: 2,
+  color: "white",
   display: "block",
 };
 
@@ -68,10 +68,10 @@ export const navbarMovil = {
   textDecoration: "none",
 };
 
-//User data
+// User data
 export const userLogin = {
-  my: 2, 
-  color: "white", 
+  my: 2,
+  color: "white",
   display: "block",
 };
 
@@ -80,18 +80,18 @@ export const userPictureMenu = {
 };
 
 export const userIconButton = {
-  p: 0, 
-  mr: -10, 
+  p: 0,
+  mr: -10,
 };
 
 export const userImage = {
   mr: 2.5,
 };
 
-//Production css
+// Production css
 
 export const cardBackgroundColor = {
-  backgroundColor: "#FDFFF7", 
+  backgroundColor: "#FDFFF7",
   borderRadius: "15px",
 };
 
@@ -118,7 +118,7 @@ export const checkboxesStyles = {
 };
 
 export const cardHeightControl = {
-  backgroundColor: "#FDFFF7", 
+  backgroundColor: "#FDFFF7",
   borderRadius: "15px",
   height: "100%",
 };
