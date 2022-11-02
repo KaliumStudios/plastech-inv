@@ -27,7 +27,7 @@ import {
   movileImageLogo,
 } from "../styles/Common.styles";
 
-const pages = ["Production", "Inventario", "Fallas"];
+const pages = ["Production", "Inventario", "Fallas", "Login"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export default function Navbar() {
@@ -158,7 +158,7 @@ export default function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={handleNavClick(setting)}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
