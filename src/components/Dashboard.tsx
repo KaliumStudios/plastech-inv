@@ -55,11 +55,17 @@ export default function Dashboard() {
         <Grid item xs={3.2}>
           <Card>
             <Typography variant="h6">Production</Typography>
+            <Typography variant="h6">
+              Production <ArrowUpwardIcon color="success" />
+            </Typography>
           </Card>
         </Grid>
         <Grid item xs={3.2}>
           <Card>
             <Typography variant="h6">Inventario</Typography>
+            <Typography variant="h6">
+              Inventario <ArrowUpwardIcon color="success" />
+            </Typography>
           </Card>
         </Grid>
         <Grid item xs={3.2}>
