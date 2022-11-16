@@ -2216,6 +2216,11 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
+"@popperjs/core@^2.11.6":
+  version "2.11.6"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
+  integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
+
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@protobufjs/aspromise/-/aspromise-1.1.2.tgz#9b8b0cc663d669a7d8f6f5d0893a14d348f30fbf"
@@ -2268,11 +2273,6 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
-
-"@popperjs/core@^2.11.6":
-  version "2.11.6"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
-  integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
 "@remix-run/router@1.0.1":
   version "1.0.1"
@@ -8226,6 +8226,11 @@ react-error-overlay@^6.0.11:
   version "6.0.11"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.11.tgz#92835de5841c5cf08ba00ddd2d677b6d17ff9adb"
   integrity sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg==
+
+react-firebase-hooks@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-firebase-hooks/-/react-firebase-hooks-5.1.0.tgz#0f69c97c44eb155f1bdae009c8ffe4b712939a97"
+  integrity sha512-R+2cRCNoA3pw3l9yI90up5/iVhNO3ZgRh+1PPBCj8nIZfcsZHLCktacRhXbzcKX0G47ldHXC9JLsFWOmjzvcxA==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
