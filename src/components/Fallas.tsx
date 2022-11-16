@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { TextField, Stack, Card, Typography } from "@mui/material";
+import { TextField, Stack, Card, Typography, Divider } from "@mui/material";
 import {
   cardBackgroundColor,
   boxMargins,
@@ -27,17 +27,14 @@ export default function Fallas() {
               <Typography style={typographyStyles}>Dia de la falla</Typography>
               <TextField fullWidth></TextField>
             </Box>
-          </Card>
-        </Grid>
-        <Grid item xs={4}>
-          <Paper style={cardHeightControl}>
-            <Card style={cardHeightControl}>
+            <Divider> </Divider>
+            <Paper style={cardHeightControl}>
               <Box style={boxMargins}>
                 <Typography style={typographyStyles}>Comentarios </Typography>
                 <TextField fullWidth multiline rows={5}></TextField>
               </Box>
-            </Card>
-          </Paper>
+            </Paper>
+          </Card>
         </Grid>
       </Grid>
     </Stack>
