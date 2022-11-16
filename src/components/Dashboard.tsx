@@ -85,7 +85,6 @@ export default function Dashboard() {
       >
         <Grid item xs={7}>
           <Card>
-            {" "}
             <div>
               <HighchartsReact highcharts={Highcharts} options={options} />
             </div>
@@ -93,7 +92,6 @@ export default function Dashboard() {
         </Grid>
         <Grid item xs={2.6}>
           <Card>
-            {" "}
             <div>
               <HighchartsReact highcharts={Highcharts} options={options} />
             </div>
