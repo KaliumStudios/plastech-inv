@@ -29,7 +29,11 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 
-export default function Navbar() {
+interface NavbarProps {
+  userName: string;
+}
+
+export default function Navbar(props: NavbarProps) {
   const pages = ["Production", "Inventario", "Fallas"];
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const noOp = () => {};
@@ -151,7 +155,7 @@ export default function Navbar() {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User Image" src="" sx={userImage} />
-                <Typography sx={userLogin}>{" El ELiud de Leon "}</Typography>
+                <Typography sx={userLogin}>{props.userName}</Typography>
               </IconButton>
             </Tooltip>
             <Menu

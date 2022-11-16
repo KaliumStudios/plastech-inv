@@ -3,25 +3,20 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
+import Typography, { TypographyProps } from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import {
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 
 type MaybeUndef<T> = T | undefined;
 
-function Copyright(props: any) {
+function Copyright(props: TypographyProps) {
   return (
     <Typography
       variant="body2"
@@ -31,7 +26,7 @@ function Copyright(props: any) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://github.com/AmauriPC">
-        Amauri
+        Platech
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -52,9 +47,9 @@ export default function SignInSide() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/", { replace: false });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      alert(err.message);
+      alert((err as { message: string }).message);
     }
   }
 
@@ -70,7 +65,7 @@ export default function SignInSide() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid container component="main" sx={{ height: "100%" }}>
         <CssBaseline />
         <Grid
           item
@@ -115,7 +110,7 @@ export default function SignInSide() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Dirección de correo electrónico"
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -125,14 +120,10 @@ export default function SignInSide() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Contraseña"
                 type="password"
                 id="password"
                 autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
               />
               <Button
                 type="submit"
@@ -140,7 +131,7 @@ export default function SignInSide() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Iniciar sesión
               </Button>
               <Copyright sx={{ mt: 5 }} />
             </Box>
