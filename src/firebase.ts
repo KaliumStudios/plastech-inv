@@ -20,9 +20,9 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 
-const defects = firestoreCollection(firestore, "defects");
-const production = firestoreCollection(firestore, "production");
-const inventory = firestoreCollection(firestore, "inventory");
+export const defects = firestoreCollection(firestore, "defects");
+export const production = firestoreCollection(firestore, "production");
+export const inventory = firestoreCollection(firestore, "inventory");
 
 const productionCollection = collection(production);
 const inventoryCollection = collection(inventory);
