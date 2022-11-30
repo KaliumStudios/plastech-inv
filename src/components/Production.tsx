@@ -113,20 +113,21 @@ export default function Production() {
     return errors;
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const changeFormVal = (name: string, value: string) => {
     setFormValues((v) => ({
       ...v,
       [name]: value,
     }));
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    changeFormVal(name, value);
+  };
+
   const handleSelectChange = (e: SelectChangeEvent<string>) => {
     const { name, value } = e.target;
-    setFormValues((v) => ({
-      ...v,
-      [name]: value,
-    }));
+    changeFormVal(name, value);
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -137,6 +138,19 @@ export default function Production() {
 
       setFormErrors(newFormErrors);
     }
+  };
+
+  const handleHourChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    let date = moment(formValues.fecha.toDate());
+    // "18:30:07" becomes ["18", "30", "07"]
+    const valArr = value.split(":");
+    date = date
+      .hour(Number(valArr[0]))
+      .minute(Number(valArr[1]))
+      .second(Number(valArr[2]));
+    // TODO: This is trash and should be fixed
+    changeFormVal(name, date as unknown as string);
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
@@ -259,9 +273,11 @@ export default function Production() {
                     name="horaInicio"
                     type="time"
                     fullWidth
-                    value={formValues.horaInicio}
+                    value={moment(formValues.horaInicio.toDate()).format(
+                      "HH:mm:ss"
+                    )}
                     error={!!formErrors.horaInicio}
-                    onChange={handleInputChange}
+                    onChange={handleHourChange}
                     onBlur={handleBlur}
                   />
                   {formErrors.horaInicio && (
@@ -274,9 +290,11 @@ export default function Production() {
                     name="horaFin"
                     type="time"
                     fullWidth
-                    value={formValues.horaFin}
+                    value={moment(formValues.horaFin.toDate()).format(
+                      "HH:mm:ss"
+                    )}
                     error={!!formErrors.horaFin}
-                    onChange={handleInputChange}
+                    onChange={handleHourChange}
                     onBlur={handleBlur}
                   />
                   {formErrors.horaFin && (
