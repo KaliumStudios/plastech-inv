@@ -12,24 +12,44 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AgricultureIcon from "@mui/icons-material/Agriculture";
-import { useNavigate } from "react-router-dom";
+import AdbIcon from "@mui/icons-material/Adb";
 import {
   logoFlexBox,
-  logoImage,
   logoText,
-  navbarFlexBox,
   navbarText,
-  userIconButton,
   userLogin,
   userPictureMenu,
   userImage,
+  navbarMovil,
+  navbarFlexBox,
+  logoImage,
+  movileImageLogo,
 } from "../styles/Common.styles";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
-const pages = ["Production", "Inventario", "Fallas"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+interface NavbarProps {
+  userName: string;
+}
 
-export default function Navbar() {
+export default function Navbar(props: NavbarProps) {
+  const pages = ["Production", "Inventario", "Fallas"];
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  const noOp = () => {};
+  const navigate = useNavigate();
+  async function logout() {
+    await signOut(auth);
+    navigate("/", { replace: false });
+  }
+
+  const settings: [string, () => void][] = [
+    ["Profile", noOp],
+    ["Account", noOp],
+    ["Dashboard", noOp],
+    ["Logout", logout],
+  ];
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -52,8 +72,6 @@ export default function Navbar() {
     setAnchorElUser(null);
   };
 
-  const navigate = useNavigate();
-
   const handleNavClick = useCallback(
     (page: string) => () => {
       navigate(`/${page}`);
@@ -62,10 +80,13 @@ export default function Navbar() {
   );
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#007ea7" }}>
+    <AppBar
+      position="sticky"
+      sx={{ backgroundColor: "#007ea7", flex: "0 1 auto" }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AgricultureIcon sx={logoImage} />
+          <AdbIcon sx={logoImage} />
           <Typography
             variant="h6"
             noWrap
@@ -106,15 +127,22 @@ export default function Navbar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center" component="a" href="/">
-                    {page}
-                  </Typography>
+                <MenuItem key={page} onClick={handleNavClick(page)}>
+                  <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-
+          <AdbIcon sx={movileImageLogo} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={navbarMovil}
+          >
+            LOGO
+          </Typography>
           <Box sx={navbarFlexBox}>
             {pages.map((page) => (
               <Button key={page} onClick={handleNavClick(page)} sx={navbarText}>
@@ -125,9 +153,9 @@ export default function Navbar() {
           {/* { TODO cabmiar este pedazo cuando tengamos la conexion a la base de datos } */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={userIconButton}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User Image" src="" sx={userImage} />
-                <Typography sx={userLogin}>{" El ELiud de Leon "}</Typography>
+                <Typography sx={userLogin}>{props.userName}</Typography>
               </IconButton>
             </Tooltip>
             <Menu
@@ -146,9 +174,11 @@ export default function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {settings.map(([name, callback]) => (
+                <MenuItem key={name} onClick={handleCloseUserMenu}>
+                  <Typography onClick={callback} textAlign="center">
+                    {name}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
