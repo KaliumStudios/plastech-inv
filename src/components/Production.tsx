@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import {
@@ -36,8 +36,9 @@ import {
   ValueOf,
 } from "../utils/databaseTypes";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { production } from "../firebase";
+import { production, productionCollection } from "../firebase";
 import _ from "lodash-es";
+import { Subscription } from "rxjs/internal/Subscription";
 
 type ProductionErrors = Partial<Record<keyof ProductionType, string>>;
 
@@ -62,9 +63,37 @@ export default function Production() {
   const [formValues, setFormValues] = React.useState(initialFormValues);
   const [formErrors, setFormErrors] = React.useState<ProductionErrors>({});
 
-  const [rowData] = useState<ValueOf<PlastechTypeMap>[]>([]);
+  const [rowData, setRowData] = useState<ValueOf<PlastechTypeMap>[]>([]);
   const [open, setOpen] = React.useState(false);
   const [submitError, setSubmitError] = React.useState(false);
+  const [currenSub, setCurrenSub] = useState<Subscription | undefined>();
+
+  useEffect(() => {
+    reSubscribeToDbChanges();
+  }, []);
+
+  const reSubscribeToDbChanges = () => {
+    if (currenSub) {
+      currenSub.unsubscribe();
+    }
+
+    const sub = productionCollection.subscribe((gc) => {
+      setRowData(
+        gc.map((doc) => {
+          const data = doc.data();
+          Object.entries(data).forEach(([key, val]) => {
+            if (val instanceof Timestamp) {
+              const newDate = moment(val.toDate()).format("YYYY/MM/DD");
+              data[key] = newDate;
+            }
+          });
+
+          return data as ValueOf<PlastechTypeMap>;
+        })
+      );
+    });
+    setCurrenSub(sub);
+  };
 
   const handleClose = (
     event: React.SyntheticEvent | Event,
