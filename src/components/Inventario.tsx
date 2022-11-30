@@ -1,7 +1,14 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { TextField, Stack, Card, Typography, Button } from "@mui/material";
+import {
+  TextField,
+  Stack,
+  Card,
+  Typography,
+  Button,
+  Snackbar,
+} from "@mui/material";
 import {
   boxMargins,
   typographyStyles,
@@ -14,8 +21,12 @@ import { Timestamp } from "firebase/firestore";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { NumberInput } from "@mui-treasury/component-numberinput/dist";
+import { NumberInput } from "@mui-treasury/component-numberinput";
 import moment from "moment";
+import { inventory } from "../firebase";
+import { addDoc } from "firebase/firestore";
+import _ from "lodash-es";
+import { Alert } from "./Alert";
 
 type InventoryForm = Record<keyof Inventory, string>;
 type InventoryErrors = Partial<InventoryForm>;
@@ -32,6 +43,20 @@ export default function Inventario() {
   const [formValues, setFormValues] =
     React.useState<Inventory>(initialFormValues);
   const [formErrors, setFormErrors] = React.useState<InventoryErrors>({});
+  const [open, setOpen] = React.useState(false);
+  const [submitError, setSubmitError] = React.useState(false);
+
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSubmitError(false);
+    setOpen(false);
+  };
 
   const validate = (val: Inventory) => {
     const errors: InventoryErrors = {};
@@ -70,117 +95,140 @@ export default function Inventario() {
     }
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     const newErrors = validate(formValues);
     setFormErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // TODO: Upload to database
-      console.log(formValues);
+      try {
+        await addDoc(inventory, formValues);
+        setFormValues(initialFormValues);
+        setOpen(true);
+      } catch (error) {
+        console.error(error);
+        setSubmitError(true);
+        setOpen(true);
+      }
     }
   };
 
   return (
-    <Stack>
-      <Typography variant="h4" sx={{ color: "white" }}>
-        Agrega un nuevo registro a inventario
-      </Typography>
-      <Typography variant="subtitle1" sx={{ color: "#CADBDB", opacity: 0.5 }}>
-        Esta informacion se guardara en las tablas
-      </Typography>
-      <Grid container mt={2} style={centeredGrids}>
-        <Card sx={{ width: "66%", borderRadius: 7 }}>
-          <Box style={boxMargins}>
-            <Typography style={typographyStyles}>Nombre</Typography>
-            <TextField
-              name="nombre"
-              fullWidth
-              value={formValues.nombre}
-              error={!!formErrors.nombre}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-            />
-            {formErrors.nombre && (
-              <Box style={redError}> {formErrors.nombre} </Box>
-            )}
-            <Typography style={typographyStyles}>Proveedor</Typography>
-            <TextField
-              fullWidth
-              name="proveedor"
-              value={formValues.proveedor}
-              error={!!formErrors.proveedor}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-            />
-            {formErrors.proveedor && (
-              <Box style={redError}> {formErrors.proveedor} </Box>
-            )}
-            <Typography style={typographyStyles}>Cantidad</Typography>
-            <NumberInput
-              min={0}
-              name="cantidad"
-              fullWidth
-              value={formValues.cantidad}
-              error={!!formErrors.cantidad}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              onChange={(val: any, _md: any) => {
-                setFormValues({
-                  ...formValues,
-                  cantidad: val ?? formValues.cantidad,
-                });
-              }}
-            />
-            {formErrors.cantidad && (
-              <Box style={redError}> {formErrors.cantidad} </Box>
-            )}
-          </Box>
-          <LocalizationProvider dateAdapter={AdapterMoment}>
+    <>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={submitError ? "Error al subir" : "Datos subidos correctamente"}
+      >
+        {submitError ? (
+          <Alert severity="error">Hubo un error al subir la información</Alert>
+        ) : (
+          <Alert severity="success">Información subida con éxito</Alert>
+        )}
+      </Snackbar>
+      <Stack>
+        <Typography variant="h4" sx={{ color: "white" }}>
+          Agrega un nuevo registro a inventario
+        </Typography>
+        <Typography variant="subtitle1" sx={{ color: "#CADBDB", opacity: 0.5 }}>
+          Esta informacion se guardara en las tablas
+        </Typography>
+        <Grid container mt={2} style={centeredGrids}>
+          <Card sx={{ width: "66%", borderRadius: 7 }}>
             <Box style={boxMargins}>
-              <Typography style={typographyStyles}>Fecha</Typography>
-              <DesktopDatePicker
-                inputFormat="MM/DD/YYYY"
-                value={moment(formValues.fecha.toDate())}
-                onChange={(val) => {
-                  if (!val) return;
-                  return setFormValues({
-                    ...formValues,
-                    fecha: Timestamp.fromDate(val.toDate()),
-                  });
-                }}
-                renderInput={(params) => <TextField fullWidth {...params} />}
+              <Typography style={typographyStyles}>Nombre</Typography>
+              <TextField
+                name="nombre"
+                fullWidth
+                value={formValues.nombre}
+                error={!!formErrors.nombre}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
               />
-              {formErrors.fecha && (
-                <Box style={redError}> {formErrors.fecha} </Box>
+              {formErrors.nombre && (
+                <Box style={redError}> {formErrors.nombre} </Box>
               )}
-              <Typography style={typographyStyles}>Fecha de uso</Typography>
-              <DesktopDatePicker
-                inputFormat="MM/DD/YYYY"
-                value={moment(formValues.fechaDeUso.toDate())}
-                onChange={(val) => {
-                  if (!val) return;
-                  return setFormValues({
+              <Typography style={typographyStyles}>Proveedor</Typography>
+              <TextField
+                fullWidth
+                name="proveedor"
+                value={formValues.proveedor}
+                error={!!formErrors.proveedor}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+              />
+              {formErrors.proveedor && (
+                <Box style={redError}> {formErrors.proveedor} </Box>
+              )}
+              <Typography style={typographyStyles}>Cantidad</Typography>
+              <NumberInput
+                min={0}
+                name="cantidad"
+                fullWidth
+                value={formValues.cantidad}
+                error={!!formErrors.cantidad}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onChange={(val: any, _md: any) => {
+                  setFormValues({
                     ...formValues,
-                    fechaDeUso: Timestamp.fromDate(val.toDate()),
+                    cantidad: _.isFinite(val)
+                      ? Number(val)
+                      : formValues.cantidad,
                   });
                 }}
-                renderInput={(params) => <TextField fullWidth {...params} />}
               />
-              {formErrors.fechaDeUso && (
-                <Box style={redError}> {formErrors.fechaDeUso} </Box>
+              {formErrors.cantidad && (
+                <Box style={redError}> {formErrors.cantidad} </Box>
               )}
             </Box>
-          </LocalizationProvider>
-          <Button
-            onClick={handleSubmit}
-            fullWidth
-            color="info"
-            style={buttonSpacing}
-          >
-            Save
-          </Button>
-        </Card>
-      </Grid>
-    </Stack>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <Box style={boxMargins}>
+                <Typography style={typographyStyles}>Fecha</Typography>
+                <DesktopDatePicker
+                  inputFormat="MM/DD/YYYY"
+                  value={moment(formValues.fecha.toDate())}
+                  onChange={(val) => {
+                    if (!val) return;
+                    return setFormValues({
+                      ...formValues,
+                      fecha: Timestamp.fromDate(val.toDate()),
+                    });
+                  }}
+                  renderInput={(params) => <TextField fullWidth {...params} />}
+                />
+                {formErrors.fecha && (
+                  <Box style={redError}> {formErrors.fecha} </Box>
+                )}
+                <Typography style={typographyStyles}>Fecha de uso</Typography>
+                <DesktopDatePicker
+                  inputFormat="MM/DD/YYYY"
+                  value={moment(formValues.fechaDeUso.toDate())}
+                  onChange={(val) => {
+                    if (!val) return;
+                    return setFormValues({
+                      ...formValues,
+                      fechaDeUso: Timestamp.fromDate(val.toDate()),
+                    });
+                  }}
+                  renderInput={(params) => <TextField fullWidth {...params} />}
+                />
+                {formErrors.fechaDeUso && (
+                  <Box style={redError}> {formErrors.fechaDeUso} </Box>
+                )}
+              </Box>
+            </LocalizationProvider>
+            <Button
+              onClick={handleSubmit}
+              fullWidth
+              color="info"
+              style={buttonSpacing}
+            >
+              Save
+            </Button>
+          </Card>
+        </Grid>
+      </Stack>
+    </>
   );
 }
