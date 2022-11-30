@@ -26,6 +26,7 @@ import {
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import PlastechLogo from "../assets/LogoSinFondo.png";
 
 interface NavbarProps {
   userName: string;
@@ -91,11 +92,7 @@ export default function Navbar(props: NavbarProps) {
             onClick={handleNavClick("")}
             sx={logoText}
           >
-            <img
-              src="https://drive.google.com/uc?export=view&id=1zN7XfSL5HL3P5TAE3q898gUgwU1zDAVX"
-              alt="Logo"
-              width="50rem"
-            />
+            <img src={PlastechLogo} alt="Logo" width="50rem" />
           </Typography>
 
           <Box sx={logoFlexBox}>
@@ -141,11 +138,7 @@ export default function Navbar(props: NavbarProps) {
             href=""
             sx={navbarMovil}
           >
-            <img
-              src="https://drive.google.com/uc?export=view&id=1zN7XfSL5HL3P5TAE3q898gUgwU1zDAVX"
-              alt="Logo"
-              width="50rem"
-            />
+            <img src={PlastechLogo} alt="Logo" width="50rem" />
           </Typography>
           <Box sx={navbarFlexBox}>
             {pages.map((page) => (
