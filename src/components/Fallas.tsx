@@ -79,6 +79,12 @@ export default function Fallas() {
 
   return (
     <Stack>
+      <Typography variant="h4" sx={{ color: "white" }}>
+        Agrega una nueva falla
+      </Typography>
+      <Typography variant="subtitle1" sx={{ color: "#CADBDB", opacity: 0.5 }}>
+        Esta informacion se guardara en las tablas
+      </Typography>
       <Grid container spacing={3} mb={8} mt={2} style={centeredGrids}>
         <Grid item xs={7}>
           <Card style={cardBackgroundColor}>
