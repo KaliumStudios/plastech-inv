@@ -2072,6 +2072,17 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz#b2ac626d6cb9c8718ab459166d4bb405b8ffa78b"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
+"@mui-treasury/component-numberinput@file:lib/component-numberinput.tgz":
+  version "0.0.1-alpha.16"
+  resolved "file:lib/component-numberinput.tgz#f9bc55b92871ba2fbf550675c12892ea750712a4"
+  dependencies:
+    "@mui-treasury/use-number-input" "^0.1.0-alpha.9"
+
+"@mui-treasury/use-number-input@^0.1.0-alpha.9":
+  version "0.1.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@mui-treasury/use-number-input/-/use-number-input-0.1.0-alpha.9.tgz#678ea3f0553aad0d67226f892b6834250ab34e2c"
+  integrity sha512-Qe2u2oh14c1j4ZeckTR6gbHLmVOOPss57mU4TUMRr7YLhjN9GjyP3obORBcFQ0VOZSwVeNTu/l7wq/FPNa6s7A==
+
 "@mui/base@5.0.0-alpha.99":
   version "5.0.0-alpha.99"
   resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.99.tgz#52589c72b6bf69e016e5811292529d60f81537ad"
