@@ -91,14 +91,13 @@ export const userImage = {
 // Production css
 
 export const cardBackgroundColor = {
-  backgroundColor: "#FDFFF7",
+  backgroundColor: "#FFF",
   borderRadius: "15px",
   display: "flex",
-
 };
 
 export const centeredGrids = {
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 export const boxMargins = {
@@ -107,7 +106,7 @@ export const boxMargins = {
 
 export const boxMarginsFlex = {
   margin: "1.5rem",
-  width: "100%"
+  width: "100%",
 };
 
 export const typographyStyles = {
@@ -129,7 +128,7 @@ export const redError = {
 };
 
 export const buttonSpacing = {
-  padding: "1rem", 
+  padding: "1rem",
   margin: "1rem",
 };
 

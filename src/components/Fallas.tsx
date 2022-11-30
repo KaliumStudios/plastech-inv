@@ -16,37 +16,38 @@ import {
   redError,
   buttonSpacing,
 } from "../styles/Common.styles";
+import { NumberInput } from "@mui-treasury/component-numberinput/dist";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import moment from "moment";
+import { Defects } from "../utils/databaseTypes";
+import { Timestamp } from "firebase/firestore";
 
-interface FallasForm {
-  failCycleNum?: string;
-  failGroup?: string;
-  dayFail?: string;
-  comment?: string;
-}
-
-type FallasErrors = FallasForm;
+type FallasErrors = Partial<Record<keyof Defects, string>>;
 
 export default function Fallas() {
-  const initialFormValues = {
-    failCycleNum: "",
-    failGroup: "",
-    dayFail: "",
-    comment: "",
+  const initialFormValues: Defects = {
+    noCicloFalla: 0,
+    dia: Timestamp.fromDate(new Date()),
+    grupoDefalla: "",
+    idFalla: 10,
+    comentarios: "",
   };
 
   const [formValues, setFormValues] = React.useState(initialFormValues);
   const [formErrors, setFormErrors] = React.useState<FallasErrors>({});
 
-  const validate = (val: FallasForm) => {
-    const errors: FallasForm = {};
-    if (!val.failCycleNum) {
-      errors.failCycleNum = "Número de ciclo requerido";
+  const validate = (val: Defects) => {
+    const errors: FallasErrors = {};
+    if (!val.noCicloFalla) {
+      errors.noCicloFalla = "Número de ciclo requerido";
     }
-    if (!val.failGroup) {
-      errors.failGroup = "Grupo de falla requerido";
+    if (!val.grupoDefalla) {
+      errors.grupoDefalla = "Grupo de falla requerido";
     }
-    if (!val.dayFail) {
-      errors.dayFail = "Día del fallo requerido";
+    if (!val.dia) {
+      errors.dia = "Día del fallo requerido";
     }
     return errors;
   };
@@ -71,7 +72,13 @@ export default function Fallas() {
 
   const handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    setFormErrors(validate(formValues));
+    const newErrors = validate(formValues);
+    setFormErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      // TODO: Upload to database
+      console.log(formValues);
+    }
   };
 
   return (
@@ -88,41 +95,51 @@ export default function Fallas() {
             <Typography style={typographyStyles}>
               Numero de ciclo de falla
             </Typography>
-            <TextField
-              name="failCycleNum"
+            <NumberInput
+              min={0}
+              name="noCicloFalla"
               fullWidth
-              value={formValues.failCycleNum}
-              error={!!formErrors.failCycleNum}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
+              value={formValues.noCicloFalla}
+              error={!!formErrors.noCicloFalla}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onChange={(val: any, _md: any) => {
+                setFormValues({
+                  ...formValues,
+                  noCicloFalla: val ?? formValues.noCicloFalla,
+                });
+              }}
             />
-            {formErrors.failCycleNum && (
-              <Box style={redError}> {formErrors.failCycleNum} </Box>
+            {formErrors.noCicloFalla && (
+              <Box style={redError}> {formErrors.noCicloFalla} </Box>
             )}
             <Typography style={typographyStyles}>Grupo de falla</Typography>
             <TextField
               fullWidth
-              name="failGroup"
-              value={formValues.failGroup}
-              error={!!formErrors.failGroup}
+              name="grupoDefalla"
+              value={formValues.grupoDefalla}
+              error={!!formErrors.grupoDefalla}
               onChange={handleInputChange}
               onBlur={handleBlur}
             />
-            {formErrors.failGroup && (
-              <Box style={redError}> {formErrors.failGroup} </Box>
+            {formErrors.grupoDefalla && (
+              <Box style={redError}> {formErrors.grupoDefalla} </Box>
             )}
             <Typography style={typographyStyles}>Dia de la falla</Typography>
-            <TextField
-              fullWidth
-              name="dayFail"
-              value={formValues.dayFail}
-              error={!!formErrors.dayFail}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-            />
-            {formErrors.dayFail && (
-              <Box style={redError}> {formErrors.dayFail} </Box>
-            )}
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <DesktopDatePicker
+                inputFormat="MM/DD/YYYY"
+                value={moment(formValues.dia.toDate())}
+                onChange={(val) => {
+                  if (!val) return;
+                  return setFormValues({
+                    ...formValues,
+                    dia: Timestamp.fromDate(val.toDate()),
+                  });
+                }}
+                renderInput={(params) => <TextField fullWidth {...params} />}
+              />
+            </LocalizationProvider>
+            {formErrors.dia && <Box style={redError}> {formErrors.dia} </Box>}
           </Box>
           <Divider> </Divider>
 
@@ -132,8 +149,8 @@ export default function Fallas() {
               fullWidth
               multiline
               rows={5}
-              name="comment"
-              value={formValues.comment}
+              name="comentarios"
+              value={formValues.comentarios}
               onChange={handleInputChange}
               onBlur={handleBlur}
             />

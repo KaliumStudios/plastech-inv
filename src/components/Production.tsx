@@ -19,6 +19,13 @@ import {
   redError,
   boxMarginsFlex,
 } from "../styles/Common.styles";
+import { Production as ProductionType } from "../utils/databaseTypes";
+import { Timestamp } from "firebase/firestore";
+import { NumberInput } from "@mui-treasury/component-numberinput/dist";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import moment from "moment";
 import { AgGridReact } from "ag-grid-react";
 import { defaultColDef, productionColDef } from "../utils/invColDefs";
 import {
@@ -28,33 +35,20 @@ import {
 } from "../utils/databaseTypes";
 import { SelectChangeEvent } from "@mui/material/Select";
 
-interface ProductionForm {
-  pintor?: string;
-  resinador?: string;
-  fibrador?: string;
-  manchador?: string;
-  fecha?: string;
-  hora_inicio?: string;
-  hora_termino?: string;
-  tipo_molde?: string;
-  piezas_fabricadas?: string;
-  num_ciclo?: string;
-}
-
-type ProductionsError = ProductionForm;
+type ProductionErrors = Partial<Record<keyof ProductionType, string>>;
 
 export default function Production() {
-  const initialFormValues = {
+  const initialFormValues: ProductionType = {
     pintor: "",
     resinador: "",
     fibrador: "",
     manchador: "",
-    fecha: "",
-    hora_inicio: "",
-    hora_termino: "",
-    tipo_molde: "",
-    piezas_fabricadas: "",
-    num_ciclo: "",
+    fecha: Timestamp.fromDate(new Date()),
+    horaInicio: Timestamp.fromDate(new Date()),
+    horaFin: Timestamp.fromDate(new Date()),
+    tipoMolde: "",
+    piezasFabricadas: 0,
+    numCiclo: 0,
   };
 
   const colDefs = {
@@ -62,12 +56,12 @@ export default function Production() {
   };
 
   const [formValues, setFormValues] = React.useState(initialFormValues);
-  const [formErrors, setFormErrors] = React.useState<ProductionsError>({});
+  const [formErrors, setFormErrors] = React.useState<ProductionErrors>({});
 
   const [rowData] = useState<ValueOf<PlastechTypeMap>[]>([]);
 
-  const validate = (val: ProductionForm) => {
-    const errors: ProductionForm = {};
+  const validate = (val: ProductionType) => {
+    const errors: ProductionErrors = {};
     if (!val.pintor) {
       errors.pintor = "Pintor requerido";
     }
@@ -83,20 +77,20 @@ export default function Production() {
     if (!val.fecha) {
       errors.fecha = "Fecha requerida";
     }
-    if (!val.hora_inicio) {
-      errors.hora_inicio = "Hora inicial requerida";
+    if (!val.horaInicio) {
+      errors.horaInicio = "Hora inicial requerida";
     }
-    if (!val.hora_termino) {
-      errors.hora_termino = "Hora de termino requerida";
+    if (!val.horaFin) {
+      errors.horaFin = "Hora de termino requerida";
     }
-    if (!val.tipo_molde) {
-      errors.tipo_molde = "Tipo de molde requerido";
+    if (!val.tipoMolde) {
+      errors.tipoMolde = "Tipo de molde requerido";
     }
-    if (!val.piezas_fabricadas) {
-      errors.piezas_fabricadas = "Piezas fabricadas requerido";
+    if (val.piezasFabricadas == undefined || val.piezasFabricadas == null) {
+      errors.piezasFabricadas = "Piezas fabricadas requerido";
     }
-    if (!val.num_ciclo) {
-      errors.num_ciclo = "Número de ciclo requerido";
+    if (val.numCiclo == undefined || val.numCiclo == null) {
+      errors.numCiclo = "Número de ciclo requerido";
     }
     return errors;
   };
@@ -119,8 +113,8 @@ export default function Production() {
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     if (e.target.name) {
-      const name = e.target.name as keyof ProductionsError;
-      const newFormErrors: ProductionsError = { ...formErrors };
+      const name = e.target.name as keyof ProductionErrors;
+      const newFormErrors: ProductionErrors = { ...formErrors };
       delete newFormErrors[name];
 
       setFormErrors(newFormErrors);
@@ -129,13 +123,19 @@ export default function Production() {
 
   const handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    setFormErrors(validate(formValues));
+    const newErrors = validate(formValues);
+    setFormErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      // TODO: Upload to database
+      console.log(formValues);
+    }
   };
 
   return (
     <Stack>
       <Typography variant="h4" sx={{ color: "white" }}>
-        Agrega un nuevo Productor
+        Agrega un nuevo producto
       </Typography>
       <Typography variant="subtitle1" sx={{ color: "#CADBDB", opacity: 0.5 }}>
         Esta informacion se guardara en las tablas
@@ -193,47 +193,55 @@ export default function Production() {
                 <Box style={redError}> {formErrors.manchador} </Box>
               )}
             </Box>
-            <Box style={boxMarginsFlex}>
-              <Typography style={typographyStyles}>Fecha</Typography>
-              <TextField
-                name="fecha"
-                type="date"
-                fullWidth
-                value={formValues.fecha}
-                error={!!formErrors.fecha}
-                onChange={handleInputChange}
-                onBlur={handleBlur}
-              />
-              {formErrors.fecha && (
-                <Box style={redError}> {formErrors.fecha} </Box>
-              )}
-              <Typography style={typographyStyles}>Hora de inicio</Typography>
-              <TextField
-                name="hora_inicio"
-                type="time"
-                fullWidth
-                value={formValues.hora_inicio}
-                error={!!formErrors.hora_inicio}
-                onChange={handleInputChange}
-                onBlur={handleBlur}
-              />
-              {formErrors.hora_inicio && (
-                <Box style={redError}> {formErrors.hora_inicio} </Box>
-              )}
-              <Typography style={typographyStyles}>Hora de termino</Typography>
-              <TextField
-                name="hora_termino"
-                type="time"
-                fullWidth
-                value={formValues.hora_termino}
-                error={!!formErrors.hora_termino}
-                onChange={handleInputChange}
-                onBlur={handleBlur}
-              />
-              {formErrors.hora_termino && (
-                <Box style={redError}> {formErrors.hora_termino} </Box>
-              )}
-            </Box>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <Box style={boxMarginsFlex}>
+                <Typography style={typographyStyles}>Fecha</Typography>
+                <DesktopDatePicker
+                  label="Fecha"
+                  inputFormat="MM/DD/YYYY"
+                  value={moment(formValues.fecha.toDate())}
+                  onChange={(val) => {
+                    if (!val) return;
+                    return setFormValues({
+                      ...formValues,
+                      fecha: Timestamp.fromDate(val.toDate()),
+                    });
+                  }}
+                  renderInput={(params) => <TextField fullWidth {...params} />}
+                />
+                {formErrors.fecha && (
+                  <Box style={redError}> {formErrors.fecha} </Box>
+                )}
+                <Typography style={typographyStyles}>Hora de inicio</Typography>
+                <TextField
+                  name="horaInicio"
+                  type="time"
+                  fullWidth
+                  value={formValues.horaInicio}
+                  error={!!formErrors.horaInicio}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                />
+                {formErrors.horaInicio && (
+                  <Box style={redError}> {formErrors.horaInicio} </Box>
+                )}
+                <Typography style={typographyStyles}>
+                  Hora de termino
+                </Typography>
+                <TextField
+                  name="horaFin"
+                  type="time"
+                  fullWidth
+                  value={formValues.horaFin}
+                  error={!!formErrors.horaFin}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                />
+                {formErrors.horaFin && (
+                  <Box style={redError}> {formErrors.horaFin} </Box>
+                )}
+              </Box>
+            </LocalizationProvider>
           </div>
           <Divider variant="middle" />
           <div style={cardBackgroundColor}>
@@ -242,9 +250,9 @@ export default function Production() {
               <Box style={checkboxesStyles}>
                 <Select
                   fullWidth
-                  name="tipo_molde"
-                  value={formValues.tipo_molde}
-                  error={!!formErrors.tipo_molde}
+                  name="tipoMolde"
+                  value={formValues.tipoMolde}
+                  error={!!formErrors.tipoMolde}
                   onChange={handleSelectChange}
                   onBlur={handleBlur}
                 >
@@ -255,36 +263,48 @@ export default function Production() {
                   <MenuItem value="bow">Bow</MenuItem>
                 </Select>
               </Box>
-              {formErrors.tipo_molde && (
-                <Box style={redError}> {formErrors.tipo_molde} </Box>
+              {formErrors.tipoMolde && (
+                <Box style={redError}> {formErrors.tipoMolde} </Box>
               )}
             </Box>
             <Box style={boxMarginsFlex}>
               <Typography style={typographyStyles}>
                 Piezas fabricadas
               </Typography>
-              <TextField
-                name="piezas_fabricadas"
+              <NumberInput
+                min={0}
+                name="piezasFabricadas"
                 fullWidth
-                value={formValues.piezas_fabricadas}
-                error={!!formErrors.piezas_fabricadas}
-                onChange={handleInputChange}
-                onBlur={handleBlur}
+                value={formValues.piezasFabricadas}
+                error={!!formErrors.piezasFabricadas}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onChange={(val: any, _md: any) => {
+                  setFormValues({
+                    ...formValues,
+                    piezasFabricadas: val ?? formValues.piezasFabricadas,
+                  });
+                }}
               />
-              {formErrors.piezas_fabricadas && (
-                <Box style={redError}> {formErrors.piezas_fabricadas} </Box>
+              {formErrors.piezasFabricadas && (
+                <Box style={redError}> {formErrors.piezasFabricadas} </Box>
               )}
               <Typography style={typographyStyles}>Numero de ciclo</Typography>
-              <TextField
-                name="num_ciclo"
+              <NumberInput
+                min={0}
+                name="numCiclo"
                 fullWidth
-                value={formValues.num_ciclo}
-                error={!!formErrors.num_ciclo}
-                onChange={handleInputChange}
-                onBlur={handleBlur}
+                value={formValues.numCiclo}
+                error={!!formErrors.numCiclo}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onChange={(val: any, _md: any) => {
+                  setFormValues({
+                    ...formValues,
+                    numCiclo: val ?? formValues.numCiclo,
+                  });
+                }}
               />
-              {formErrors.num_ciclo && (
-                <Box style={redError}> {formErrors.num_ciclo} </Box>
+              {formErrors.numCiclo && (
+                <Box style={redError}> {formErrors.numCiclo} </Box>
               )}
             </Box>
           </div>

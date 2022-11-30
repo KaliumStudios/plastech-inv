@@ -17,7 +17,7 @@ export type PlastechTypeMap = {
 export interface Defects {
   comentarios: string;
   dia: Timestamp;
-  grupoDefalla: number;
+  grupoDefalla: string;
   idFalla: number;
   noCicloFalla: number;
 }
