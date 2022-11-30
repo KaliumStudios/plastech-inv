@@ -131,4 +131,3 @@ export const cardHeightControl = {
   borderRadius: "15px",
   height: "100%",
 };
-
