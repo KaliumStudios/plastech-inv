@@ -100,7 +100,13 @@ export default function Production() {
 
   const handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    setFormErrors(validate(formValues));
+    const newErrors = validate(formValues);
+    setFormErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      // TODO: Upload to database
+      console.log(formValues);
+    }
   };
 
   return (
