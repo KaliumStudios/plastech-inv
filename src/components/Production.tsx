@@ -83,8 +83,16 @@ export default function Production() {
           const data = doc.data();
           Object.entries(data).forEach(([key, val]) => {
             if (val instanceof Timestamp) {
-              const newDate = moment(val.toDate()).format("YYYY/MM/DD");
-              data[key] = newDate;
+              let newDate;
+              switch (key) {
+              case "fecha":
+                newDate = moment(val.toDate()).format("YYYY/MM/DD");
+                data[key] = newDate;
+                break;
+              default:
+                newDate = moment(val.toDate()).format("HH:MM:SS");
+                data[key] = newDate;
+              }
             }
           });
 
