@@ -1,20 +1,19 @@
 import { ColDef, ColGroupDef } from "ag-grid-community";
-import dayjs, { Dayjs } from "dayjs";
-import "dayjs/locale/es";
-dayjs.locale("es");
+import { Timestamp } from "firebase/firestore";
+import { Production } from "./databaseTypes";
 
 function createProductionData(
   pintor: string,
   resinador: string,
   fibrador: string,
   manchador: string,
-  fecha: Dayjs,
-  horaInicio: Dayjs,
-  horaFin: Dayjs,
+  fecha: Timestamp,
+  horaInicio: Timestamp,
+  horaFin: Timestamp,
   tipoMolde: string,
   piezasFabricadas: number,
   numCiclo: number
-) {
+): Production {
   return {
     pintor,
     resinador,
@@ -48,9 +47,9 @@ function createRandomProductionData() {
     generateRandomName(),
     generateRandomName(),
     generateRandomName(),
-    dayjs(),
-    dayjs(),
-    dayjs(),
+    new Timestamp(0, 0),
+    new Timestamp(0, 0),
+    new Timestamp(0, 0),
     "Molde A",
     Math.floor(Math.random() * 100),
     Math.floor(Math.random() * 5)
