@@ -12,7 +12,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { useNavigate } from "react-router-dom";
+
 import {
   logoFlexBox,
   logoText,
@@ -23,11 +23,31 @@ import {
   navbarMovil,
   navbarFlexBox,
 } from "../styles/Common.styles";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
-const pages = ["Production", "Inventario", "Fallas"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+interface NavbarProps {
+  userName: string;
+}
 
-export default function Navbar() {
+export default function Navbar(props: NavbarProps) {
+  const pages = ["Production", "Inventario", "Fallas"];
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  const noOp = () => {};
+  const navigate = useNavigate();
+  async function logout() {
+    await signOut(auth);
+    navigate("/", { replace: false });
+  }
+
+  const settings: [string, () => void][] = [
+    ["Profile", noOp],
+    ["Account", noOp],
+    ["Dashboard", noOp],
+    ["Logout", logout],
+  ];
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -49,8 +69,6 @@ export default function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const navigate = useNavigate();
 
   const handleNavClick = useCallback(
     (page: string) => () => {
@@ -141,7 +159,7 @@ export default function Navbar() {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User Image" src="" sx={userImage} />
-                <Typography sx={userLogin}>{" El ELiud de Leon "}</Typography>
+                <Typography sx={userLogin}>{props.userName}</Typography>
               </IconButton>
             </Tooltip>
             <Menu
@@ -160,9 +178,11 @@ export default function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {settings.map(([name, callback]) => (
+                <MenuItem key={name} onClick={handleCloseUserMenu}>
+                  <Typography onClick={callback} textAlign="center">
+                    {name}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
