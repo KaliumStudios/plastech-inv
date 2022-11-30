@@ -117,12 +117,6 @@ export const checkboxesStyles = {
   alignItems: "center",
 };
 
-export const cardHeightControl = {
-  backgroundColor: "#FDFFF7",
-  borderRadius: "15px",
-  height: "100%",
-};
-
 export const redError = {
   color: "red",
 };
@@ -132,3 +126,8 @@ export const buttonSpacing = {
   margin: "1rem",
 };
 
+export const cardHeightControl = {
+  backgroundColor: "#FDFFF7",
+  borderRadius: "15px",
+  height: "100%",
+};
