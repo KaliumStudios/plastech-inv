@@ -91,8 +91,9 @@ export const userImage = {
 // Production css
 
 export const cardBackgroundColor = {
-  backgroundColor: "#FDFFF7",
+  backgroundColor: "#FFF",
   borderRadius: "15px",
+  display: "flex",
 };
 
 export const centeredGrids = {
@@ -100,7 +101,12 @@ export const centeredGrids = {
 };
 
 export const boxMargins = {
-  margin: "20px 30px 20px 30px",
+  margin: "1.5rem",
+};
+
+export const boxMarginsFlex = {
+  margin: "1.5rem",
+  width: "100%",
 };
 
 export const typographyStyles = {
@@ -115,6 +121,15 @@ export const checkboxesStyles = {
   justifyContent: "center",
   alignContent: "center",
   alignItems: "center",
+};
+
+export const redError = {
+  color: "red",
+};
+
+export const buttonSpacing = {
+  padding: "1rem",
+  margin: "1rem",
 };
 
 export const cardHeightControl = {
