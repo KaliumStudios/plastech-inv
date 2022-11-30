@@ -14,6 +14,7 @@ import { Timestamp } from "firebase/firestore";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { NumberInput } from "@mui-treasury/component-numberinput/dist";
 import moment from "moment";
 
 type InventoryForm = Record<keyof Inventory, string>;
@@ -110,13 +111,19 @@ export default function Inventario() {
               <Box style={redError}> {formErrors.proveedor} </Box>
             )}
             <Typography style={typographyStyles}>Cantidad</Typography>
-            <TextField
+            <NumberInput
+              min={0}
               name="cantidad"
               fullWidth
               value={formValues.cantidad}
               error={!!formErrors.cantidad}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onChange={(val: any, _md: any) => {
+                setFormValues({
+                  ...formValues,
+                  cantidad: val ?? formValues.cantidad,
+                });
+              }}
             />
             {formErrors.cantidad && (
               <Box style={redError}> {formErrors.cantidad} </Box>
@@ -126,7 +133,6 @@ export default function Inventario() {
             <Box style={boxMargins}>
               <Typography style={typographyStyles}>Fecha</Typography>
               <DesktopDatePicker
-                label="Fecha"
                 inputFormat="MM/DD/YYYY"
                 value={moment(formValues.fecha.toDate())}
                 onChange={(val) => {
@@ -143,7 +149,6 @@ export default function Inventario() {
               )}
               <Typography style={typographyStyles}>Fecha de uso</Typography>
               <DesktopDatePicker
-                label="Fecha"
                 inputFormat="MM/DD/YYYY"
                 value={moment(formValues.fechaDeUso.toDate())}
                 onChange={(val) => {
