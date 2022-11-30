@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import {
@@ -17,6 +17,13 @@ import {
   redError,
   buttonSpacing,
 } from "../styles/Common.styles";
+import { AgGridReact } from "ag-grid-react";
+import {
+  PlastechDataType,
+  PlastechTypeMap,
+  ValueOf,
+} from "../utils/databaseTypes";
+import { defaultColDef, defectColDef } from "../utils/invColDefs";
 import { NumberInput } from "@mui-treasury/component-numberinput";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -55,6 +62,12 @@ export default function Fallas() {
     setSubmitError(false);
     setOpen(false);
   };
+
+  const colDefs = {
+    [PlastechDataType.defects]: defectColDef,
+  };
+
+  const [rowData] = useState<ValueOf<PlastechTypeMap>[]>([]);
 
   const validate = (val: Defects) => {
     const errors: FallasErrors = {};
@@ -206,6 +219,28 @@ export default function Fallas() {
               </Button>
             </Box>
           </Card>
+        </Grid>
+        <Grid>
+          <Box
+            className="ag-theme-alpine"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              marginTop: "3rem",
+            }}
+          >
+            <AgGridReact
+              containerStyle={{
+                height: 600,
+                width: "80%",
+              }}
+              defaultColDef={defaultColDef}
+              columnDefs={colDefs[2]}
+              rowData={rowData}
+            />
+          </Box>
         </Grid>
       </Stack>
     </>
