@@ -12,7 +12,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import {
   logoFlexBox,
@@ -23,8 +22,6 @@ import {
   userImage,
   navbarMovil,
   navbarFlexBox,
-  logoImage,
-  movileImageLogo,
 } from "../styles/Common.styles";
 
 const pages = ["Production", "Inventario", "Fallas"];
@@ -69,7 +66,6 @@ export default function Navbar() {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={logoImage} />
           <Typography
             variant="h6"
             noWrap
@@ -77,7 +73,11 @@ export default function Navbar() {
             onClick={handleNavClick("")}
             sx={logoText}
           >
-            LOGO
+            <img
+              src="https://drive.google.com/uc?export=view&id=1zN7XfSL5HL3P5TAE3q898gUgwU1zDAVX"
+              alt="Logo"
+              width="50rem"
+            />
           </Typography>
 
           <Box sx={logoFlexBox}>
@@ -116,7 +116,6 @@ export default function Navbar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={movileImageLogo} />
           <Typography
             variant="h5"
             noWrap
@@ -124,7 +123,11 @@ export default function Navbar() {
             href=""
             sx={navbarMovil}
           >
-            LOGO
+            <img
+              src="https://drive.google.com/uc?export=view&id=1zN7XfSL5HL3P5TAE3q898gUgwU1zDAVX"
+              alt="Logo"
+              width="50rem"
+            />
           </Typography>
           <Box sx={navbarFlexBox}>
             {pages.map((page) => (
