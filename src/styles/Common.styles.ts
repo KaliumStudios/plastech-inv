@@ -103,3 +103,12 @@ export const checkboxesStyles = {
   alignContent: "center",
   alignItems: "center",
 };
+
+export const redError = {
+  color: "red",
+};
+
+export const buttonSpacing = {
+  padding: "1rem", 
+  margin: "1rem",
+};
