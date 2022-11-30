@@ -179,7 +179,7 @@ export default function Production() {
       .minute(Number(valArr[1]))
       .second(Number(valArr[2]));
     // TODO: This is trash and should be fixed
-    changeFormVal(name, date as unknown as string);
+    changeFormVal(name, Timestamp.fromDate(date.toDate()) as unknown as string);
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
