@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { TextField, Stack, Card, Typography, Button } from "@mui/material";
 import {
-  cardBackgroundColor,
   boxMargins,
   typographyStyles,
   centeredGrids,
