@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { TextField, Stack, Card, Typography, Button } from "@mui/material";
@@ -9,6 +9,13 @@ import {
   redError,
   buttonSpacing,
 } from "../styles/Common.styles";
+import { AgGridReact } from "ag-grid-react";
+import {
+  PlastechDataType,
+  PlastechTypeMap,
+  ValueOf,
+} from "../utils/databaseTypes";
+import { defaultColDef, invColDef } from "../utils/invColDefs";
 
 interface InventarioForm {
   nombre?: string;
@@ -31,6 +38,12 @@ export default function Inventario() {
 
   const [formValues, setFormValues] = React.useState(initialFormValues);
   const [formErrors, setFormErrors] = React.useState<InventoryErrors>({});
+
+  const colDefs = {
+    [PlastechDataType.inventory]: invColDef,
+  };
+
+  const [rowData] = useState<ValueOf<PlastechTypeMap>[]>([]);
 
   const validate = (val: InventarioForm) => {
     const errors: InventarioForm = {};
@@ -159,6 +172,28 @@ export default function Inventario() {
             Save
           </Button>
         </Card>
+      </Grid>
+      <Grid>
+        <Box
+          className="ag-theme-alpine"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            marginTop: "3rem",
+          }}
+        >
+          <AgGridReact
+            containerStyle={{
+              height: 600,
+              width: "80%",
+            }}
+            defaultColDef={defaultColDef}
+            columnDefs={colDefs[1]}
+            rowData={rowData}
+          />
+        </Box>
       </Grid>
     </Stack>
   );
