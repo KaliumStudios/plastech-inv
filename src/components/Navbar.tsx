@@ -43,9 +43,6 @@ export default function Navbar(props: NavbarProps) {
   }
 
   const settings: [string, () => void][] = [
-    ["Profile", noOp],
-    ["Account", noOp],
-    ["Dashboard", noOp],
     ["Logout", logout],
   ];
 

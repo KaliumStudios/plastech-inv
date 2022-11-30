@@ -128,7 +128,7 @@ export const invColDef: (ColDef | ColGroupDef)[] = [
   },
   {
     headerName: "Fecha de uso",
-    field: "fechaUso",
+    field: "fechaDeUso",
   },
 ];
 
