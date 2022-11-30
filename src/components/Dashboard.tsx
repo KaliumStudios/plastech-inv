@@ -15,7 +15,6 @@ import {
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { ColDef, ColGroupDef } from "ag-grid-community";
 
 const options = {
   chart: {
@@ -33,7 +32,8 @@ const options = {
 
 export default function Dashboard() {
   const colDefs = [productionColDef, invColDef, defectColDef];
-  const [rowData, setRowData] = useState(randomProdData);
+  // TODO: Add setRowData when it's needed
+  const [rowData] = useState(randomProdData);
   const [colDefIdx, setColDefIdx] = useState(0);
 
   return (
