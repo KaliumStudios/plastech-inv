@@ -26,10 +26,9 @@ function Copyright(props: TypographyProps) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://github.com/AmauriPC">
-        Platech
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
+        Plastech
+      </Link>
+      {` ${new Date().getFullYear()}.`}
     </Typography>
   );
 }
