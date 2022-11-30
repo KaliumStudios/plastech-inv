@@ -93,14 +93,17 @@ export const userImage = {
 export const cardBackgroundColor = {
   backgroundColor: "#FDFFF7",
   borderRadius: "15px",
+  display: "flex",
+
 };
 
 export const centeredGrids = {
-  justifyContent: "center",
+  justifyContent: "center"
 };
 
 export const boxMargins = {
   margin: "20px 30px 20px 30px",
+  width: "100%"
 };
 
 export const typographyStyles = {
