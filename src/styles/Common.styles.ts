@@ -122,3 +122,12 @@ export const cardHeightControl = {
   borderRadius: "15px",
   height: "100%",
 };
+
+export const redError = {
+  color: "red",
+};
+
+export const buttonSpacing = {
+  padding: "1rem", 
+  margin: "1rem",
+};
