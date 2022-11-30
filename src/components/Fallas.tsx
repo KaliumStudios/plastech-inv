@@ -33,8 +33,8 @@ type FallasErrors = Partial<Record<keyof Defects, string>>;
 export default function Fallas() {
   const initialFormValues: Defects = {
     noCicloFalla: 0,
-    dia: Timestamp.fromDate(new Date()),
-    grupoDefalla: "",
+    diaFalla: Timestamp.fromDate(new Date()),
+    grupoFalla: "",
     idFalla: 10,
     comentarios: "",
   };
@@ -61,11 +61,11 @@ export default function Fallas() {
     if (!val.noCicloFalla) {
       errors.noCicloFalla = "Número de ciclo requerido";
     }
-    if (!val.grupoDefalla) {
-      errors.grupoDefalla = "Grupo de falla requerido";
+    if (!val.grupoFalla) {
+      errors.grupoFalla = "Grupo de falla requerido";
     }
-    if (!val.dia) {
-      errors.dia = "Día del fallo requerido";
+    if (!val.diaFalla) {
+      errors.diaFalla = "Día del fallo requerido";
     }
     return errors;
   };
@@ -155,31 +155,33 @@ export default function Fallas() {
               <Typography style={typographyStyles}>Grupo de falla</Typography>
               <TextField
                 fullWidth
-                name="grupoDefalla"
-                value={formValues.grupoDefalla}
-                error={!!formErrors.grupoDefalla}
+                name="grupoFalla"
+                value={formValues.grupoFalla}
+                error={!!formErrors.grupoFalla}
                 onChange={handleInputChange}
                 onBlur={handleBlur}
               />
-              {formErrors.grupoDefalla && (
-                <Box style={redError}> {formErrors.grupoDefalla} </Box>
+              {formErrors.grupoFalla && (
+                <Box style={redError}> {formErrors.grupoFalla} </Box>
               )}
               <Typography style={typographyStyles}>Dia de la falla</Typography>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DesktopDatePicker
                   inputFormat="MM/DD/YYYY"
-                  value={moment(formValues.dia.toDate())}
+                  value={moment(formValues.diaFalla.toDate())}
                   onChange={(val) => {
                     if (!val) return;
                     return setFormValues({
                       ...formValues,
-                      dia: Timestamp.fromDate(val.toDate()),
+                      diaFalla: Timestamp.fromDate(val.toDate()),
                     });
                   }}
                   renderInput={(params) => <TextField fullWidth {...params} />}
                 />
               </LocalizationProvider>
-              {formErrors.dia && <Box style={redError}> {formErrors.dia} </Box>}
+              {formErrors.diaFalla && (
+                <Box style={redError}> {formErrors.diaFalla} </Box>
+              )}
             </Box>
             <Divider> </Divider>
 
