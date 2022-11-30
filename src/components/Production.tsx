@@ -12,11 +12,11 @@ import {
 } from "@mui/material";
 import {
   cardBackgroundColor,
+  boxMargins,
   typographyStyles,
   checkboxesStyles,
   centeredGrids,
   redError,
-  boxMarginsFlex,
 } from "../styles/Common.styles";
 
 interface ProductionForm {
@@ -120,7 +120,7 @@ export default function Production() {
       <Grid container mt={2} style={centeredGrids}>
         <Card sx={{ width: "66%", borderRadius: 7 }}>
           <div style={cardBackgroundColor}>
-            <Box style={boxMarginsFlex}>
+            <Box style={boxMargins}>
               <Typography style={typographyStyles}>Pintor</Typography>
               <TextField
                 name="pintor"
@@ -170,7 +170,7 @@ export default function Production() {
                 <Box style={redError}> {formErrors.manchador} </Box>
               )}
             </Box>
-            <Box style={boxMarginsFlex}>
+            <Box style={boxMargins}>
               <Typography style={typographyStyles}>Fecha</Typography>
               <TextField
                 name="fecha"
@@ -214,7 +214,7 @@ export default function Production() {
           </div>
           <Divider variant="middle" />
           <div style={cardBackgroundColor}>
-            <Box style={boxMarginsFlex}>
+            <Box style={boxMargins}>
               <Typography style={typographyStyles}>Tipo de molde</Typography>
               <TextField
                 name="tipo_molde"
@@ -234,7 +234,7 @@ export default function Production() {
                 <Checkbox />
               </Box>
             </Box>
-            <Box style={boxMarginsFlex}>
+            <Box style={boxMargins}>
               <Typography style={typographyStyles}>
                 Piezas fabricadas
               </Typography>
