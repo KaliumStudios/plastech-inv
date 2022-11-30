@@ -102,11 +102,7 @@ export const centeredGrids = {
 };
 
 export const boxMargins = {
-  margin: "1.5rem",
-};
-
-export const boxMarginsFlex = {
-  margin: "1.5rem",
+  margin: "20px 30px 20px 30px",
   width: "100%"
 };
 

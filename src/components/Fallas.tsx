@@ -10,12 +10,15 @@ import {
   Button,
 } from "@mui/material";
 import {
+  cardBackgroundColor,
   boxMargins,
   typographyStyles,
   centeredGrids,
+  cardHeightControl,
   redError,
   buttonSpacing,
 } from "../styles/Common.styles";
+import Paper from "@mui/material/Paper";
 
 interface FallasForm {
   failCycleNum?: string;
@@ -82,71 +85,74 @@ export default function Fallas() {
       <Typography variant="subtitle1" sx={{ color: "#CADBDB", opacity: 0.5 }}>
         Esta informacion se guardara en las tablas
       </Typography>
-      <Grid container mt={2} style={centeredGrids}>
-        <Card sx={{ width: "66%", borderRadius: 7 }}>
-          <Box style={boxMargins}>
-            <Typography style={typographyStyles}>
-              Numero de ciclo de falla
-            </Typography>
-            <TextField
-              name="failCycleNum"
-              fullWidth
-              value={formValues.failCycleNum}
-              error={!!formErrors.failCycleNum}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-            />
-            {formErrors.failCycleNum && (
-              <Box style={redError}> {formErrors.failCycleNum} </Box>
-            )}
-            <Typography style={typographyStyles}>Grupo de falla</Typography>
-            <TextField
-              fullWidth
-              name="failGroup"
-              value={formValues.failGroup}
-              error={!!formErrors.failGroup}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-            />
-            {formErrors.failGroup && (
-              <Box style={redError}> {formErrors.failGroup} </Box>
-            )}
-            <Typography style={typographyStyles}>Dia de la falla</Typography>
-            <TextField
-              fullWidth
-              name="dayFail"
-              value={formValues.dayFail}
-              error={!!formErrors.dayFail}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-            />
-            {formErrors.dayFail && (
-              <Box style={redError}> {formErrors.dayFail} </Box>
-            )}
-          </Box>
-          <Divider> </Divider>
-
-          <Box style={boxMargins}>
-            <Typography style={typographyStyles}>Comentarios </Typography>
-            <TextField
-              fullWidth
-              multiline
-              rows={5}
-              name="comment"
-              value={formValues.comment}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-            />
-            <Button
-              onClick={handleSubmit}
-              fullWidth
-              color="info"
-              style={buttonSpacing}
-            >
-              Save
-            </Button>
-          </Box>
-        </Card>
+      <Grid container spacing={3} mb={8} mt={2} style={centeredGrids}>
+        <Grid item xs={7}>
+          <Card style={cardBackgroundColor}>
+            <Box style={boxMargins}>
+              <Typography style={typographyStyles}>
+                Numero de ciclo de falla
+              </Typography>
+              <TextField
+                name="failCycleNum"
+                fullWidth
+                value={formValues.failCycleNum}
+                error={!!formErrors.failCycleNum}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+              />
+              {formErrors.failCycleNum && (
+                <Box style={redError}> {formErrors.failCycleNum} </Box>
+              )}
+              <Typography style={typographyStyles}>Grupo de falla</Typography>
+              <TextField
+                fullWidth
+                name="failGroup"
+                value={formValues.failGroup}
+                error={!!formErrors.failGroup}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+              />
+              {formErrors.failGroup && (
+                <Box style={redError}> {formErrors.failGroup} </Box>
+              )}
+              <Typography style={typographyStyles}>Dia de la falla</Typography>
+              <TextField
+                fullWidth
+                name="dayFail"
+                value={formValues.dayFail}
+                error={!!formErrors.dayFail}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+              />
+              {formErrors.dayFail && (
+                <Box style={redError}> {formErrors.dayFail} </Box>
+              )}
+            </Box>
+            <Divider> </Divider>
+            <Paper style={cardHeightControl}>
+              <Box style={boxMargins}>
+                <Typography style={typographyStyles}>Comentarios </Typography>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={5}
+                  name="comment"
+                  value={formValues.comment}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                />
+                <Button
+                  onClick={handleSubmit}
+                  fullWidth
+                  color="info"
+                  style={buttonSpacing}
+                >
+                  Save
+                </Button>
+              </Box>
+            </Paper>
+          </Card>
+        </Grid>
       </Grid>
     </Stack>
   );
