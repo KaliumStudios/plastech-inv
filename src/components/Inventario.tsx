@@ -59,22 +59,20 @@ export default function Inventario() {
       ...v,
       [name]: value,
     }));
-    // eslint-disable-next-line no-console
-    console.log(value);
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    const name = e.target.name as keyof InventoryErrors;
-    const newFormErrors: InventoryErrors = { ...formErrors };
-    delete newFormErrors[name];
-
-    setFormErrors(newFormErrors);
+    if (e.target.name) {
+      const name = e.target.name as keyof InventoryErrors;
+      const newFormErrors: InventoryErrors = { ...formErrors };
+      delete newFormErrors[name];
+      setFormErrors(newFormErrors);
+    }
   };
 
   const handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     setFormErrors(validate(formValues));
-    console.log(formErrors.nombre);
   };
 
   return (
@@ -91,7 +89,7 @@ export default function Inventario() {
                 error={!!formErrors.nombre}
                 onChange={handleInputChange}
                 onBlur={handleBlur}
-              ></TextField>
+              />
               {formErrors.nombre && (
                 <Box style={redError}> {formErrors.nombre} </Box>
               )}
@@ -103,7 +101,7 @@ export default function Inventario() {
                 error={!!formErrors.proveedor}
                 onChange={handleInputChange}
                 onBlur={handleBlur}
-              ></TextField>
+              />
               {formErrors.proveedor && (
                 <Box style={redError}> {formErrors.proveedor} </Box>
               )}
@@ -115,7 +113,7 @@ export default function Inventario() {
                 error={!!formErrors.cantidad}
                 onChange={handleInputChange}
                 onBlur={handleBlur}
-              ></TextField>
+              />
               {formErrors.cantidad && (
                 <Box style={redError}> {formErrors.cantidad} </Box>
               )}
@@ -134,7 +132,7 @@ export default function Inventario() {
                 error={!!formErrors.fecha}
                 onChange={handleInputChange}
                 onBlur={handleBlur}
-              ></TextField>
+              />
               {formErrors.fecha && (
                 <Box style={redError}> {formErrors.fecha} </Box>
               )}
@@ -147,7 +145,7 @@ export default function Inventario() {
                 error={!!formErrors.fecha_de_uso}
                 onChange={handleInputChange}
                 onBlur={handleBlur}
-              ></TextField>
+              />
               {formErrors.fecha_de_uso && (
                 <Box style={redError}> {formErrors.fecha_de_uso} </Box>
               )}
