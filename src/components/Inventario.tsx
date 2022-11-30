@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { TextField, Stack, Card, Typography, Button } from "@mui/material";
@@ -9,12 +9,19 @@ import {
   redError,
   buttonSpacing,
 } from "../styles/Common.styles";
+import { AgGridReact } from "ag-grid-react";
+import {
+  PlastechDataType,
+  PlastechTypeMap,
+  ValueOf,
+} from "../utils/databaseTypes";
+import { defaultColDef, invColDef } from "../utils/invColDefs";
 import { Inventory } from "../utils/databaseTypes";
 import { Timestamp } from "firebase/firestore";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { NumberInput } from "@mui-treasury/component-numberinput/dist";
+import { NumberInput } from "@mui-treasury/component-numberinput";
 import moment from "moment";
 
 type InventoryForm = Record<keyof Inventory, string>;
@@ -32,6 +39,12 @@ export default function Inventario() {
   const [formValues, setFormValues] =
     React.useState<Inventory>(initialFormValues);
   const [formErrors, setFormErrors] = React.useState<InventoryErrors>({});
+
+  const colDefs = {
+    [PlastechDataType.inventory]: invColDef,
+  };
+
+  const [rowData] = useState<ValueOf<PlastechTypeMap>[]>([]);
 
   const validate = (val: Inventory) => {
     const errors: InventoryErrors = {};
@@ -180,6 +193,28 @@ export default function Inventario() {
             Save
           </Button>
         </Card>
+      </Grid>
+      <Grid>
+        <Box
+          className="ag-theme-alpine"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            marginTop: "3rem",
+          }}
+        >
+          <AgGridReact
+            containerStyle={{
+              height: 600,
+              width: "80%",
+            }}
+            defaultColDef={defaultColDef}
+            columnDefs={colDefs[1]}
+            rowData={rowData}
+          />
+        </Box>
       </Grid>
     </Stack>
   );

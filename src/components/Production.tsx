@@ -21,7 +21,7 @@ import {
 } from "../styles/Common.styles";
 import { Production as ProductionType } from "../utils/databaseTypes";
 import { Timestamp } from "firebase/firestore";
-import { NumberInput } from "@mui-treasury/component-numberinput/dist";
+import { NumberInput } from "@mui-treasury/component-numberinput";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
