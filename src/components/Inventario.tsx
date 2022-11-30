@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import {
@@ -30,10 +30,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { NumberInput } from "@mui-treasury/component-numberinput";
 import moment from "moment";
-import { inventory } from "../firebase";
+import { inventory, inventoryCollection } from "../firebase";
 import { addDoc } from "firebase/firestore";
 import _ from "lodash-es";
 import { Alert } from "./Alert";
+import { Subscription } from "rxjs/internal/Subscription";
 
 type InventoryForm = Record<keyof Inventory, string>;
 type InventoryErrors = Partial<InventoryForm>;
@@ -52,6 +53,35 @@ export default function Inventario() {
   const [formErrors, setFormErrors] = React.useState<InventoryErrors>({});
   const [open, setOpen] = React.useState(false);
   const [submitError, setSubmitError] = React.useState(false);
+  const [currenSub, setCurrenSub] = useState<Subscription | undefined>();
+  const [rowData, setRowData] = useState<ValueOf<PlastechTypeMap>[]>([]);
+
+  useEffect(() => {
+    reSubscribeToDbChanges();
+  }, []);
+
+  const reSubscribeToDbChanges = () => {
+    if (currenSub) {
+      currenSub.unsubscribe();
+    }
+
+    const sub = inventoryCollection.subscribe((gc) => {
+      setRowData(
+        gc.map((doc) => {
+          const data = doc.data();
+          Object.entries(data).forEach(([key, val]) => {
+            if (val instanceof Timestamp) {
+              const newDate = moment(val.toDate()).format("YYYY/MM/DD");
+              data[key] = newDate;
+            }
+          });
+
+          return data as ValueOf<PlastechTypeMap>;
+        })
+      );
+    });
+    setCurrenSub(sub);
+  };
 
   const handleClose = (
     event: React.SyntheticEvent | Event,
@@ -68,8 +98,6 @@ export default function Inventario() {
   const colDefs = {
     [PlastechDataType.inventory]: invColDef,
   };
-
-  const [rowData] = useState<ValueOf<PlastechTypeMap>[]>([]);
 
   const validate = (val: Inventory) => {
     const errors: InventoryErrors = {};

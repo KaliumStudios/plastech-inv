@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import {
@@ -31,9 +31,10 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
 import { Defects } from "../utils/databaseTypes";
 import { addDoc, Timestamp } from "firebase/firestore";
-import { defects } from "../firebase";
+import { defects, defectsCollection } from "../firebase";
 import _ from "lodash-es";
 import { Alert } from "./Alert";
+import { Subscription } from "rxjs/internal/Subscription";
 
 type FallasErrors = Partial<Record<keyof Defects, string>>;
 
@@ -50,6 +51,35 @@ export default function Fallas() {
   const [formErrors, setFormErrors] = React.useState<FallasErrors>({});
   const [open, setOpen] = React.useState(false);
   const [submitError, setSubmitError] = React.useState(false);
+  const [currenSub, setCurrenSub] = useState<Subscription | undefined>();
+  const [rowData, setRowData] = useState<ValueOf<PlastechTypeMap>[]>([]);
+
+  useEffect(() => {
+    reSubscribeToDbChanges();
+  }, []);
+
+  const reSubscribeToDbChanges = () => {
+    if (currenSub) {
+      currenSub.unsubscribe();
+    }
+
+    const sub = defectsCollection.subscribe((gc) => {
+      setRowData(
+        gc.map((doc) => {
+          const data = doc.data();
+          Object.entries(data).forEach(([key, val]) => {
+            if (val instanceof Timestamp) {
+              const newDate = moment(val.toDate()).format("YYYY/MM/DD");
+              data[key] = newDate;
+            }
+          });
+
+          return data as ValueOf<PlastechTypeMap>;
+        })
+      );
+    });
+    setCurrenSub(sub);
+  };
 
   const handleClose = (
     event: React.SyntheticEvent | Event,
@@ -66,8 +96,6 @@ export default function Fallas() {
   const colDefs = {
     [PlastechDataType.defects]: defectColDef,
   };
-
-  const [rowData] = useState<ValueOf<PlastechTypeMap>[]>([]);
 
   const validate = (val: Defects) => {
     const errors: FallasErrors = {};

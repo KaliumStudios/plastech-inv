@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import {
@@ -36,8 +36,9 @@ import {
   ValueOf,
 } from "../utils/databaseTypes";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { production } from "../firebase";
+import { production, productionCollection } from "../firebase";
 import _ from "lodash-es";
+import { Subscription } from "rxjs/internal/Subscription";
 
 type ProductionErrors = Partial<Record<keyof ProductionType, string>>;
 
@@ -62,9 +63,37 @@ export default function Production() {
   const [formValues, setFormValues] = React.useState(initialFormValues);
   const [formErrors, setFormErrors] = React.useState<ProductionErrors>({});
 
-  const [rowData] = useState<ValueOf<PlastechTypeMap>[]>([]);
+  const [rowData, setRowData] = useState<ValueOf<PlastechTypeMap>[]>([]);
   const [open, setOpen] = React.useState(false);
   const [submitError, setSubmitError] = React.useState(false);
+  const [currenSub, setCurrenSub] = useState<Subscription | undefined>();
+
+  useEffect(() => {
+    reSubscribeToDbChanges();
+  }, []);
+
+  const reSubscribeToDbChanges = () => {
+    if (currenSub) {
+      currenSub.unsubscribe();
+    }
+
+    const sub = productionCollection.subscribe((gc) => {
+      setRowData(
+        gc.map((doc) => {
+          const data = doc.data();
+          Object.entries(data).forEach(([key, val]) => {
+            if (val instanceof Timestamp) {
+              const newDate = moment(val.toDate()).format("YYYY/MM/DD");
+              data[key] = newDate;
+            }
+          });
+
+          return data as ValueOf<PlastechTypeMap>;
+        })
+      );
+    });
+    setCurrenSub(sub);
+  };
 
   const handleClose = (
     event: React.SyntheticEvent | Event,
@@ -113,20 +142,21 @@ export default function Production() {
     return errors;
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const changeFormVal = (name: string, value: string) => {
     setFormValues((v) => ({
       ...v,
       [name]: value,
     }));
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    changeFormVal(name, value);
+  };
+
   const handleSelectChange = (e: SelectChangeEvent<string>) => {
     const { name, value } = e.target;
-    setFormValues((v) => ({
-      ...v,
-      [name]: value,
-    }));
+    changeFormVal(name, value);
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -137,6 +167,19 @@ export default function Production() {
 
       setFormErrors(newFormErrors);
     }
+  };
+
+  const handleHourChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    let date = moment(formValues.fecha.toDate());
+    // "18:30:07" becomes ["18", "30", "07"]
+    const valArr = value.split(":");
+    date = date
+      .hour(Number(valArr[0]))
+      .minute(Number(valArr[1]))
+      .second(Number(valArr[2]));
+    // TODO: This is trash and should be fixed
+    changeFormVal(name, date as unknown as string);
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
@@ -259,9 +302,11 @@ export default function Production() {
                     name="horaInicio"
                     type="time"
                     fullWidth
-                    value={formValues.horaInicio}
+                    value={moment(formValues.horaInicio.toDate()).format(
+                      "HH:mm:ss"
+                    )}
                     error={!!formErrors.horaInicio}
-                    onChange={handleInputChange}
+                    onChange={handleHourChange}
                     onBlur={handleBlur}
                   />
                   {formErrors.horaInicio && (
@@ -274,9 +319,11 @@ export default function Production() {
                     name="horaFin"
                     type="time"
                     fullWidth
-                    value={formValues.horaFin}
+                    value={moment(formValues.horaFin.toDate()).format(
+                      "HH:mm:ss"
+                    )}
                     error={!!formErrors.horaFin}
-                    onChange={handleInputChange}
+                    onChange={handleHourChange}
                     onBlur={handleBlur}
                   />
                   {formErrors.horaFin && (

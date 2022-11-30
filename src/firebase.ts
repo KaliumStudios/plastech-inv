@@ -24,9 +24,9 @@ export const defects = firestoreCollection(firestore, "defects");
 export const production = firestoreCollection(firestore, "production");
 export const inventory = firestoreCollection(firestore, "inventory");
 
-const productionCollection = collection(production);
-const inventoryCollection = collection(inventory);
-const defectsCollection = collection(defects);
+export const productionCollection = collection(production);
+export const inventoryCollection = collection(inventory);
+export const defectsCollection = collection(defects);
 
 export const gridCollections = {
   [PlastechDataType.production]: productionCollection,
