@@ -9,31 +9,31 @@ import {
   redError,
   buttonSpacing,
 } from "../styles/Common.styles";
+import { Inventory } from "../utils/databaseTypes";
+import { Timestamp } from "firebase/firestore";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import moment from "moment";
 
-interface InventarioForm {
-  nombre?: string;
-  proveedor?: string;
-  cantidad?: string;
-  fecha?: string;
-  fecha_de_uso?: string;
-}
-
-type InventoryErrors = InventarioForm;
+type InventoryForm = Record<keyof Inventory, string>;
+type InventoryErrors = Partial<InventoryForm>;
 
 export default function Inventario() {
-  const initialFormValues = {
+  const initialFormValues: Inventory = {
     nombre: "",
     proveedor: "",
-    cantidad: "",
-    fecha: "",
-    fecha_de_uso: "",
+    cantidad: 0,
+    fecha: Timestamp.fromDate(new Date()),
+    fechaDeUso: Timestamp.fromDate(new Date()),
   };
 
-  const [formValues, setFormValues] = React.useState(initialFormValues);
+  const [formValues, setFormValues] =
+    React.useState<Inventory>(initialFormValues);
   const [formErrors, setFormErrors] = React.useState<InventoryErrors>({});
 
-  const validate = (val: InventarioForm) => {
-    const errors: InventarioForm = {};
+  const validate = (val: Inventory) => {
+    const errors: InventoryErrors = {};
     if (!val.nombre) {
       errors.nombre = "Name required";
     }
@@ -46,8 +46,8 @@ export default function Inventario() {
     if (!val.fecha) {
       errors.fecha = "Fecha required";
     }
-    if (!val.fecha_de_uso) {
-      errors.fecha_de_uso = "Fecha de uso required";
+    if (!val.fechaDeUso) {
+      errors.fechaDeUso = "Fecha de uso required";
     }
     return errors;
   };
@@ -122,34 +122,44 @@ export default function Inventario() {
               <Box style={redError}> {formErrors.cantidad} </Box>
             )}
           </Box>
-          <Box style={boxMargins}>
-            <Typography style={typographyStyles}>Fecha</Typography>
-            <TextField
-              name="fecha"
-              type="date"
-              fullWidth
-              value={formValues.fecha}
-              error={!!formErrors.fecha}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-            />
-            {formErrors.fecha && (
-              <Box style={redError}> {formErrors.fecha} </Box>
-            )}
-            <Typography style={typographyStyles}>Fecha de uso</Typography>
-            <TextField
-              name="fecha_de_uso"
-              type="date"
-              fullWidth
-              value={formValues.fecha_de_uso}
-              error={!!formErrors.fecha_de_uso}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-            />
-            {formErrors.fecha_de_uso && (
-              <Box style={redError}> {formErrors.fecha_de_uso} </Box>
-            )}
-          </Box>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <Box style={boxMargins}>
+              <Typography style={typographyStyles}>Fecha</Typography>
+              <DesktopDatePicker
+                label="Fecha"
+                inputFormat="MM/DD/YYYY"
+                value={moment(formValues.fecha.toDate())}
+                onChange={(val) => {
+                  if (!val) return;
+                  return setFormValues({
+                    ...formValues,
+                    fecha: Timestamp.fromDate(val.toDate()),
+                  });
+                }}
+                renderInput={(params) => <TextField fullWidth {...params} />}
+              />
+              {formErrors.fecha && (
+                <Box style={redError}> {formErrors.fecha} </Box>
+              )}
+              <Typography style={typographyStyles}>Fecha de uso</Typography>
+              <DesktopDatePicker
+                label="Fecha"
+                inputFormat="MM/DD/YYYY"
+                value={moment(formValues.fechaDeUso.toDate())}
+                onChange={(val) => {
+                  if (!val) return;
+                  return setFormValues({
+                    ...formValues,
+                    fechaDeUso: Timestamp.fromDate(val.toDate()),
+                  });
+                }}
+                renderInput={(params) => <TextField fullWidth {...params} />}
+              />
+              {formErrors.fechaDeUso && (
+                <Box style={redError}> {formErrors.fechaDeUso} </Box>
+              )}
+            </Box>
+          </LocalizationProvider>
           <Button
             onClick={handleSubmit}
             fullWidth
