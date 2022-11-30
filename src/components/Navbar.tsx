@@ -12,7 +12,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+
 import {
   logoFlexBox,
   logoText,
@@ -22,12 +22,11 @@ import {
   userImage,
   navbarMovil,
   navbarFlexBox,
-  logoImage,
-  movileImageLogo,
 } from "../styles/Common.styles";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import PlastechLogo from "../assets/LogoSinFondo.png";
 
 interface NavbarProps {
   userName: string;
@@ -86,7 +85,6 @@ export default function Navbar(props: NavbarProps) {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={logoImage} />
           <Typography
             variant="h6"
             noWrap
@@ -94,7 +92,7 @@ export default function Navbar(props: NavbarProps) {
             onClick={handleNavClick("")}
             sx={logoText}
           >
-            LOGO
+            <img src={PlastechLogo} alt="Logo" width="50rem" />
           </Typography>
 
           <Box sx={logoFlexBox}>
@@ -133,7 +131,6 @@ export default function Navbar(props: NavbarProps) {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={movileImageLogo} />
           <Typography
             variant="h5"
             noWrap
@@ -141,7 +138,7 @@ export default function Navbar(props: NavbarProps) {
             href=""
             sx={navbarMovil}
           >
-            LOGO
+            <img src={PlastechLogo} alt="Logo" width="50rem" />
           </Typography>
           <Box sx={navbarFlexBox}>
             {pages.map((page) => (
