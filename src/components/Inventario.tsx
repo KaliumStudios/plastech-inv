@@ -82,7 +82,7 @@ export default function Inventario() {
       <Typography variant="subtitle1" sx={{ color: "#CADBDB", opacity: 0.5 }}>
         Esta informacion se guardara en las tablas
       </Typography>
-      <Grid container spacing={3} mb={8} mt={2} style={centeredGrids}>
+      <Grid container mt={2} style={centeredGrids}>
         <Card sx={{ width: "66%", borderRadius: 7 }}>
           <Box style={boxMargins}>
             <Typography style={typographyStyles}>Nombre</Typography>
