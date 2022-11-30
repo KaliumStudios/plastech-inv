@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import {
@@ -6,9 +6,10 @@ import {
   Stack,
   Card,
   Typography,
-  Checkbox,
   Divider,
   Button,
+  MenuItem,
+  Select,
 } from "@mui/material";
 import {
   cardBackgroundColor,
@@ -18,6 +19,14 @@ import {
   redError,
   boxMarginsFlex,
 } from "../styles/Common.styles";
+import { AgGridReact } from "ag-grid-react";
+import { defaultColDef, productionColDef } from "../utils/invColDefs";
+import {
+  PlastechDataType,
+  PlastechTypeMap,
+  ValueOf,
+} from "../utils/databaseTypes";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 interface ProductionForm {
   pintor?: string;
@@ -48,8 +57,14 @@ export default function Production() {
     num_ciclo: "",
   };
 
+  const colDefs = {
+    [PlastechDataType.production]: productionColDef,
+  };
+
   const [formValues, setFormValues] = React.useState(initialFormValues);
   const [formErrors, setFormErrors] = React.useState<ProductionsError>({});
+
+  const [rowData] = useState<ValueOf<PlastechTypeMap>[]>([]);
 
   const validate = (val: ProductionForm) => {
     const errors: ProductionForm = {};
@@ -87,6 +102,14 @@ export default function Production() {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormValues((v) => ({
+      ...v,
+      [name]: value,
+    }));
+  };
+
+  const handleSelectChange = (e: SelectChangeEvent<string>) => {
     const { name, value } = e.target;
     setFormValues((v) => ({
       ...v,
@@ -216,23 +239,25 @@ export default function Production() {
           <div style={cardBackgroundColor}>
             <Box style={boxMarginsFlex}>
               <Typography style={typographyStyles}>Tipo de molde</Typography>
-              <TextField
-                name="tipo_molde"
-                fullWidth
-                value={formValues.tipo_molde}
-                error={!!formErrors.pintor}
-                onChange={handleInputChange}
-                onBlur={handleBlur}
-              />
+              <Box style={checkboxesStyles}>
+                <Select
+                  fullWidth
+                  name="tipo_molde"
+                  value={formValues.tipo_molde}
+                  error={!!formErrors.tipo_molde}
+                  onChange={handleSelectChange}
+                  onBlur={handleBlur}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value="4x6">4x6</MenuItem>
+                  <MenuItem value="bow">Bow</MenuItem>
+                </Select>
+              </Box>
               {formErrors.tipo_molde && (
                 <Box style={redError}> {formErrors.tipo_molde} </Box>
               )}
-              <Box style={checkboxesStyles}>
-                <Typography>4x6</Typography>
-                <Checkbox />
-                <Typography>Bow</Typography>
-                <Checkbox />
-              </Box>
             </Box>
             <Box style={boxMarginsFlex}>
               <Typography style={typographyStyles}>
@@ -267,6 +292,28 @@ export default function Production() {
             Save
           </Button>
         </Card>
+      </Grid>
+      <Grid>
+        <Box
+          className="ag-theme-alpine"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            marginTop: "3rem",
+          }}
+        >
+          <AgGridReact
+            containerStyle={{
+              height: 600,
+              width: "80%",
+            }}
+            defaultColDef={defaultColDef}
+            columnDefs={colDefs[0]}
+            rowData={rowData}
+          />
+        </Box>
       </Grid>
     </Stack>
   );
